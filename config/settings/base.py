@@ -25,7 +25,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 TIME_ZONE = 'Asia/Seoul'
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en-us'
-# https://docs.djangoproject.com/en/dev/ref/settings/#site-id
+# https://docs.djangoproject.com/en/dev/ref/settings/#site-i
 SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
@@ -63,7 +63,7 @@ DJANGO_APPS = [
     'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
-    'crispy_forms',
+    # 'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -71,6 +71,7 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'yoongram.users.apps.UsersAppConfig',
+    'yoongram.images.apps.ImagesConfig'
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
