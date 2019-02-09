@@ -24,7 +24,7 @@ class LikeSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
 
   #jyoonStudy: nested Serailizer
-  comments = CommentSerializer(many=True)
+  commentsInImage = CommentSerializer(many=True)
   likes = LikeSerializer(many=True)
   class Meta:
     model = models.Image
@@ -33,7 +33,7 @@ class ImageSerializer(serializers.ModelSerializer):
       'file', 
       'location',
       'caption', 
-      'comments', 
+      'commentsInImage', 
       'likes'
     )
 
