@@ -28,6 +28,7 @@ class ImageSerializer(serializers.ModelSerializer):
   likes = LikeSerializer(many=True)
   class Meta:
     model = models.Image
+    # fields = '__all__'
     fields = (
       'id', 
       'file', 
