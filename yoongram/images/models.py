@@ -26,6 +26,11 @@ class Image(TimeStampedModel):
   creator = models.ForeignKey(
     user_model.User, on_delete=models.PROTECT, null=True, related_name='images')
     
+  # property 설정으로 디비에는 존재하지 않지만 모델에 존재하는 필드를 설정할 수 있다.
+  @property
+  def like_count(self):
+    return self.likes.all().count()
+
   def __str__(self):
     return '{} - {}'.format(self.location, self.caption)
   
