@@ -19,10 +19,21 @@ class Image(TimeStampedModel):
   file = models.ImageField()
   location = models.CharField(max_length=140)
   caption = models.TextField()
-  creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True)
-
+  # related_name을 한이유는 뭘까? -> 
+  # -> 유저에 해당하는 사진을 select 하기 위한 설정이다
+  # -> 헷갈리다면 아래 Comment, Like에도 image 필드 역시 related_name설정을 해뒀는데 이것은
+  # => rleated_name 설정으로 유저가 생성한 모든 이미지들은 이제 필드 이름 images안에 있다 !!!
+  creator = models.ForeignKey(
+    user_model.User, on_delete=models.PROTECT, null=True, related_name='images')
+    
   def __str__(self):
     return '{} - {}'.format(self.location, self.caption)
+  
+  # meta 설정으로 모델설정한다 
+  # - ordering:정렬(생선한 날짜 역순)
+  class Meta:
+    ordering = ['-created_at']
+
 @python_2_unicode_compatible
 class Comment(TimeStampedModel):
   
