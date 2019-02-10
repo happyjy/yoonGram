@@ -81,3 +81,11 @@ class ListAllLikes(APIView):
     all_Like = models.Like.objects.all()
     serializer = serializers.LikeSerializer(all_Like, many=True)
     return Response(data=serializer.data)
+
+# 1-41/step0. create the url and the view
+class LikeImage(APIView):
+  def get(self, request, format=None):
+    
+    # print(image_id)
+
+    return Response(status=200)
