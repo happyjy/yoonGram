@@ -90,7 +90,7 @@ class ListAllLikes(APIView):
 # 1-48
 class UnLikeOnImage(APIView):
   def delete(self, request, image_id, format=None):
-    user = request.users
+    user = request.user
     try:
         found_image = models.Image.objects.get(id=image_id)
     except models.Image.DoesNotExist:
