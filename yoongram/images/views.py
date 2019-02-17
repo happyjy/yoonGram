@@ -1,11 +1,11 @@
 # from django.shortcuts import render
-from pkg_resources import require
+# from pkg_resources import require
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from yoongram.images.models import Like
-from yoongram.users.views import user_detail_view
+# from yoongram.images.models import Like
+# from yoongram.users.views import user_detail_view
 
 from . import models, serializers
 
