@@ -33,6 +33,12 @@ class Image(TimeStampedModel):
   def like_count(self):
     return self.likes.all().count()
 
+  # #1-51 Getting User Profile
+  # circular dependency 때문에 설정
+  @property
+  def comment_count(self):
+    return self.comments.all().count()
+
   def __str__(self):
     return '### THIS IS IMAGE STRING VALUE : {} - {}'.format(self.location, self.caption)
   

@@ -29,5 +29,13 @@ class User(AbstractUser):
   def __str__(self):
     return self.username
 
-  def get_absolute_url(self):
-    return reverse("users:detail", kwargs={"username": self.username})
+  #아래 3개 count(post, followers, following)는 UserProfilesSerializer 생성에 사용.
+  @property
+  def post_count(self):
+    return self.image_all().count()
+  @property
+  def followers_count(self):
+    return self.followers.all().count()
+  @property
+  def following_count(self):
+    return self.following.all().couunt()

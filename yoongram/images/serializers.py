@@ -3,6 +3,15 @@ from . import models
 from yoongram.users import models as user_model
 
 
+class UserProfileImageSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = models.Image
+    fields = (
+      'id',
+      'file',
+      'comment_count',
+      'like_count'      
+    )
 
 class FeedUserSerializer(serializers.ModelSerializer):
   # 설정한 model중 설정한 fields들만 Serializer해서 반환~
