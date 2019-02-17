@@ -2,6 +2,7 @@
 from pkg_resources import require
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 
 from yoongram.images.models import Like
 from yoongram.users.views import user_detail_view
@@ -83,24 +84,68 @@ class ListAllLikes(APIView):
     return Response(data=serializer.data)
 
 # 1-41/step0. create the url and the view
-class LikeImage(APIView):
+class LikeOnImage(APIView):
   def get(self, request, image_id, format=None):
     
-    # print(image_id)
-    # print(request)
+    print('### LikeOnImage APIView')
+    print(image_id)
+    print(request)
+
+    user = request.user
+    # #1-44 Restricting Likes 
+    # #1-44 step1 이미지 있나 확인!
+    try:
+      found_image = models.Image.objects.get(id=image_id)
+      print(found_image)  # models.py > Image class > __str__ 포멧 형식
+
+    except models.Image.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # #1-44 step2 이미지가 있다면 삭제!
+    try:
+      preexisiting_like = models.Like.objects.get(
+        creator=user,
+        image=found_image
+      )
+      preexisiting_like.delete()
+      
+      return Response(status=status.HTTP_204_NO_CONTENT)
+
+    except models.Like.DoesNotExist:
+      # #1-44 step3 이미지가 없다면 저장~
+        new_like = models.Like.objects.create(
+          creator=user,
+          image=found_image
+        )
+
+        new_like.save()
+        
+    return Response(status=status.HTTP_201_CREATED)
+
+
+class CommentOnImage(APIView):
+  def post(self, request, image_id, format=None):
+    print('### CommentOnImage APIView')
+    print(request.data) #[local host address]/images/6/comment/ 페이지에서 입력한 메세지의 내용
 
     user = request.user
 
-    try:
+    try: 
       found_image = models.Image.objects.get(id=image_id)
     except models.Image.DoesNotExist:
-      return Response(status=404)
+      return Response(status=status.HTTP_404_NOT_FOUND)
 
-    new_like = models.Like.objects.create(
-      creator=user, 
-      image=found_image
-    )
+    serializer = serializers.CommentSerializer(data=request.data)
 
-    new_like.save()
+    # 1-45 [#study] 댓글저장 시 font-end에서 받아 저장할 filed는 message가 유일!
+    # 그래서 font-end에서 넘어온 data가 json type filed중 message가 있는지 
+    # serializer를 통해 python object data type으로 변경한 뒤  
+    # is_valid()로 확인한뒤 저장하는 로직 생성!
+    if serializer.is_valid():
+      # print('### I am valid')
+      serializer.save(creator=user, image=found_image)
+      return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+    else:
+      return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQEST)
 
-    return Response(status=200)
+    return Response(status=status.HTTP_201_CREATED)

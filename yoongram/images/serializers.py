@@ -5,6 +5,7 @@ from yoongram.users import models as user_model
 
 
 class FeedUserSerializer(serializers.ModelSerializer):
+  # 설정한 model중 설정한 fields들만 Serializer해서 반환~
   class Meta:
     model = user_model.User
     fields = (
@@ -14,7 +15,8 @@ class FeedUserSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
   
-  creator = FeedUserSerializer()
+  # creator는 로그인한 사용자! 즉 변경할 수 없는 사용자! -> read_only=True
+  creator = FeedUserSerializer(read_only=True)
 
   # image = ImageSerializer()
   class Meta:

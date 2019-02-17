@@ -27,12 +27,14 @@ class Image(TimeStampedModel):
     user_model.User, on_delete=models.PROTECT, null=True, related_name='images')
     
   # property 설정으로 디비에는 존재하지 않지만 모델에 존재하는 필드를 설정할 수 있다.
+  # #1-39: hidden field
+  # jyoon 다시 공부해봐야 할 필요가 있음. 
   @property
   def like_count(self):
     return self.likes.all().count()
 
   def __str__(self):
-    return '{} - {}'.format(self.location, self.caption)
+    return '### THIS IS IMAGE STRING VALUE : {} - {}'.format(self.location, self.caption)
   
   # meta 설정으로 모델설정한다 
   # - ordering:정렬(생선한 날짜 역순)
