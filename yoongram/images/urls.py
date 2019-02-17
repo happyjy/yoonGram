@@ -10,6 +10,7 @@ urlpatterns = [
     path("", view=views.Feed.as_view(), name="feed"),
     # 1-41/step1. take the id from the url
     path("<int:image_id>/likes/", view=views.LikeOnImage.as_view(), name="like_image"),
+    path("<int:image_id>/unlikes/", view=views.UnLikeOnImage.as_view(), name="unlike_image"),
     path("<int:image_id>/comments/", view=views.CommentOnImage.as_view(), name="comment_image"),
     path("comments/<int:image_id>", view=views.Comment.as_view(), name="comment"),
 

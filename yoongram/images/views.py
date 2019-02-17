@@ -4,10 +4,13 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from yoongram import users
+
+from . import models, serializers
+
 # from yoongram.images.models import Like
 # from yoongram.users.views import user_detail_view
 
-from . import models, serializers
 
 
 class Feed(APIView):
@@ -82,6 +85,28 @@ class ListAllLikes(APIView):
     all_Like = models.Like.objects.all()
     serializer = serializers.LikeSerializer(all_Like, many=True)
     return Response(data=serializer.data)
+    
+
+# 1-48
+class UnLikeOnImage(APIView):
+  def delete(self, request, image_id, format=None):
+    user = request.users
+    try:
+        found_image = models.Image.objects.get(id=image_id)
+    except models.Image.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
+    try:
+      preExisiting_like = models.Like.objects.get(
+        creator=user,
+        image=found_image
+      )
+      preExisiting_like.delete()
+      return Response(status=status.HTTP_304_NOT_MODIFIED)
+
+    except models.Like.DoesNotExist:
+      return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # 1-41/step0. create the url and the view
 class LikeOnImage(APIView):
@@ -102,14 +127,18 @@ class LikeOnImage(APIView):
       return Response(status=status.HTTP_404_NOT_FOUND)
 
     # #1-44 step2 이미지가 있다면 삭제!
+    # try:
+    #   preExisiting_like = models.Like.objects.get(
+    #     creator=user,
+    #     image=found_image
+    #   )
+    #   preExisiting_like.delete()
     try:
       preExisiting_like = models.Like.objects.get(
         creator=user,
         image=found_image
       )
-      preExisiting_like.delete()
-      
-      return Response(status=status.HTTP_204_NO_CONTENT)
+      return Response(status=status.HTTP_304_NOT_MODIFIED)
 
     except models.Like.DoesNotExist:
       # #1-44 step3 이미지가 없다면 저장~
