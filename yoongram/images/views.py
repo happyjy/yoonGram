@@ -1,8 +1,8 @@
 # from django.shortcuts import render
 from pkg_resources import require
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
 
 from yoongram.images.models import Like
 from yoongram.users.views import user_detail_view
@@ -103,11 +103,11 @@ class LikeOnImage(APIView):
 
     # #1-44 step2 이미지가 있다면 삭제!
     try:
-      preexisiting_like = models.Like.objects.get(
+      preExisiting_like = models.Like.objects.get(
         creator=user,
         image=found_image
       )
-      preexisiting_like.delete()
+      preExisiting_like.delete()
       
       return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -139,13 +139,36 @@ class CommentOnImage(APIView):
 
     # 1-45 [#study] 댓글저장 시 font-end에서 받아 저장할 filed는 message가 유일!
     # 그래서 font-end에서 넘어온 data가 json type filed중 message가 있는지 
-    # serializer를 통해 python object data type으로 변경한 뒤  
+    # serializer를 통해 json type data를 python object data type으로 변경한 뒤  
     # is_valid()로 확인한뒤 저장하는 로직 생성!
     if serializer.is_valid():
       # print('### I am valid')
+      # 1-45 [#study] 저장 방식을 유의하자 !
+      # 저장할때 필요한 필드데이터를 준비한뒤 
+      # font-end에서 받아온 json type data를 serilaize하고 
+      # .save시 꽂아 준다!!!
       serializer.save(creator=user, image=found_image)
       return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     else:
       return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQEST)
 
     return Response(status=status.HTTP_201_CREATED)
+
+class Comment(APIView):
+
+  #1-46 def의 속성(delete, get, post)에 따라 Django REST framework가 달라진다!
+  # https://www.django-rest-framework.org/tutorial/3-class-based-views/
+  def delete(self, request, comment_id, format=None):
+      print("### Comment APIView")
+
+      user = request.user
+
+      print(user)
+      print(comment_id)
+
+      try:
+        comment = models.Comment.objects.get(id=comment_id, creator=user)
+        comment.delete()
+        return Response(statu=status.HTTP_204_NO_CONTENT)
+      except models.Comment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)

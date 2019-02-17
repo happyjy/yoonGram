@@ -9,8 +9,9 @@ app_name = "images"
 urlpatterns = [
     path("", view=views.Feed.as_view(), name="feed"),
     # 1-41/step1. take the id from the url
-    path("<int:image_id>/like/", view=views.LikeOnImage.as_view(), name="like_image"),
-    path("<int:image_id>/comment/", view=views.CommentOnImage.as_view(), name="like_comment"),
+    path("<int:image_id>/likes/", view=views.LikeOnImage.as_view(), name="like_image"),
+    path("<int:image_id>/comments/", view=views.CommentOnImage.as_view(), name="comment_image"),
+    path("comments/<int:image_id>", view=views.Comment.as_view(), name="comment"),
 
     # urls, views 개념 익히기 위한 테스트성 코드 / #1-39 단계에서 언급
     path("all/", view=views.ListAllImages.as_view(), name="all_images"),
