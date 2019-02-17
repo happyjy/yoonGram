@@ -198,6 +198,6 @@ class Comment(APIView):
       try:
         comment = models.Comment.objects.get(id=comment_id, creator=user)
         comment.delete()
-        return Response(statu=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
       except models.Comment.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
