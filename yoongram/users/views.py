@@ -8,7 +8,8 @@ from . import models, serializers
 class ExploreUsers(APIView):
   def get(self, request, format=None):
     last_five = models.User.objects.all()[:5]
-    serializer = serializers.ExploreUsersSerializer(last_five, many=True)
+    serializer = serializers.ListUsersSerializer(last_five, many=True)
+
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
@@ -52,6 +53,20 @@ class UserProfile(APIView):
 
     serializer = serializers.UserProfileSerializer(found_user)
 
+    print(serializer.data)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+class UserFollowUser(APIView):
+  def get(self, request, username, format=None):
+    try:
+      found_user = models.User.objects.get(username=username)
+      print(username)
+      print(found_user)
+    except models.User.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
+    user_followers = found_user.followers.all()
+    serializer = serializers.ListUsersSerializer(user_followers, many=True)
+
+    return Response(data=serializer.data, status=status.HTTP_200_OK)

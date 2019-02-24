@@ -2,7 +2,6 @@ from rest_framework import serializers
 from . import models
 from yoongram.images import serializers as images_serializers
   
-
 class UserProfileSerializer(serializers.ModelSerializer):
     images = images_serializers.UserProfileImageSerializer(many=True)
     class Meta:
@@ -18,7 +17,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         'images'
       )
 
-class ExploreUsersSerializer(serializers.ModelSerializer):
+class ListUsersSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.User
     fields = (
