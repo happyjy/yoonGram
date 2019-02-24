@@ -29,7 +29,7 @@ class User(AbstractUser):
   def __str__(self):
     return self.username
 
-  #아래 3개 count(post, followers, following)는 UserProfilesSerializer 생성에 사용.
+  #아래 3개 count(post, followers, following)는 UserProfileSerializer 생성에 사용.
   @property
   def post_count(self):
     return self.image_all().count()

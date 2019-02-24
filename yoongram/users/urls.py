@@ -14,7 +14,8 @@ urlpatterns = [
     path("<int:user_id>/follow/", view=views.FollowUser.as_view(), name="follow_user"),
     path("<int:user_id>/unfollow/", view=views.UnFollowUser.as_view(), name="unfollow_user"),
     path("<slug:username>/", view=views.UserProfile.as_view(), name="user_profile"),
-    path("<slug:username>/followers/", view=views.UserFollowUser.as_view(), name="user_profile")
+    path("<slug:username>/followers/", view=views.UserFollowerUser.as_view(), name="user_profile"),
+    path("<slug:username>/following/", view=views.UserFollowingUser.as_view(), name="user_profile")
     # re_path(r"^(?P<username>[\w-]+)/$/", view=views.UserProfile.as_view(), name="user_profile")
 
     # #1-47 삭제 예정
