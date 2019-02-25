@@ -72,6 +72,7 @@ class UserFollowerUser(APIView):
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+# class Based Viwes
 class UserFollowingUser(APIView):
   def get(self, request, username, format=None):
     try:
@@ -83,3 +84,18 @@ class UserFollowingUser(APIView):
     serializer = serializers.ListUsersSerializer(user_following, many=True)
 
     return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+# function Based Views 
+# views: path("<slug:username>/following/", view=views.UserFollowingUserFBV, name="user_profile")
+# def UserFollowingFBV(request, username):
+#   if request.method == 'GET':
+#     try:
+#       found_user = models.User.objects.get(username=username)
+#     except models.User.DeosNotExist:
+#       return Response(status=status.HTTP_404_NOT_FOUND)
+
+#     user_following = found_user.following.all()
+#     serializer = serializers.ListUsersSerializer(user_following, many=True)
+
+#     return Response(data=serializer.data, status=status.HTTP_200_OK)
