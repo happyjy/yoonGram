@@ -64,10 +64,11 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     # 'crispy_forms',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'rest_framework'   #
+    'allauth',    # registration
+    'allauth.account',  #registration
+    'allauth.socialaccount',  #registration
+    'rest_framework',   # REST framework
+    'taggit'  # Tags for the photos
 ]
 LOCAL_APPS = [
     'yoongram.users.apps.UsersAppConfig',
@@ -250,3 +251,4 @@ SOCIALACCOUNT_ADAPTER = 'yoongram.users.adapters.SocialAccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+TAGGIT_CASE_INSENSITIVE = True

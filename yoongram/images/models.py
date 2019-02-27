@@ -1,6 +1,7 @@
 from django.db import models
 from yoongram.users import models as user_model
 from django.utils.encoding import python_2_unicode_compatible
+from taggit.managers import TaggableManager
 
 # Create your models here.
 @python_2_unicode_compatible
@@ -19,12 +20,13 @@ class Image(TimeStampedModel):
   file = models.ImageField()
   location = models.CharField(max_length=140)
   caption = models.TextField()
-  # related_name을 한이유는 뭘까? -> 
+  # "related_name"을 한이유는 뭘까?
   # -> 유저에 해당하는 사진을 select 하기 위한 설정이다
   # -> 헷갈리다면 아래 Comment, Like에도 image 필드 역시 related_name설정을 해뒀는데 이것은
   # => rleated_name 설정으로 유저가 생성한 모든 이미지들은 이제 필드 이름 images안에 있다 !!!
   creator = models.ForeignKey(
     user_model.User, on_delete=models.PROTECT, null=True, related_name='images')
+  tags = TaggableManager()
     
   # property 설정으로 디비에는 존재하지 않지만 모델에 존재하는 필드를 설정할 수 있다.
   # #1-39: hidden field

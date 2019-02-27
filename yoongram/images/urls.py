@@ -13,6 +13,7 @@ urlpatterns = [
     path("<int:image_id>/unlike/", view=views.UnLikeOnImage.as_view(), name="unlike_image"),
     path("<int:image_id>/comment/", view=views.CommentOnImage.as_view(), name="comment_image"),
     path("comment/<int:comment_id>", view=views.Comment.as_view(), name="comment"),
+    path("search/", view=views.Search.as_view(), name="search"),
 
     # urls, views 개념 익히기 위한 테스트성 코드 / #1-39 단계에서 언급
     path("all/", view=views.ListAllImages.as_view(), name="all_images"),
