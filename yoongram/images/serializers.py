@@ -3,14 +3,14 @@ from . import models
 from yoongram.users import models as user_model
 
 
-class UserProfileImageSerializer(serializers.ModelSerializer):
+class CountImageSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.Image
     fields = (
-      'id'
+      'id',
       'file',
       'comment_count',
-      'like_count'      
+      'like_count'    
     )
 
 class FeedUserSerializer(serializers.ModelSerializer):
@@ -54,9 +54,9 @@ class LikeSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
 
   #jyoonStudy: nested Serailizer
-  commentsInImage = CommentSerializer(many=True)
+  comments = CommentSerializer(many=True)
   likes = LikeSerializer(many=True)
-  creator = FeedUserSerializer();
+  creator = FeedUserSerializer()
 
   class Meta:
     model = models.Image
@@ -66,7 +66,7 @@ class ImageSerializer(serializers.ModelSerializer):
       'file', 
       'location',
       'caption', 
-      'commentsInImage', 
+      'comments', 
       'likes',
       'like_count',
       'creator'

@@ -203,10 +203,45 @@ class Comment(APIView):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+# 1-55, 1-56 hashtag1,2편
 class Search(APIView):
   def get(self, request, format=None):
     # print(request.query_params)
     hashtags = request.query_params.get('hashtags', None)
-    
-    print(request.query_params)
-    print(hashtags)
+  
+    if hashtags is not None:
+      print(request.query_params)
+      print(hashtags)
+      print(type(hashtags))
+
+      # #hashtag는 split function 사용 str type을 Array type으로 filtering 한다(아래 taggit api 참고) 
+      # https://django-taggit.readthedocs.io/en/latest/api.html#filtering
+      
+      hashtags = hashtags.split('.')
+      print(hashtags)
+
+      #jyoon study 1-56 Field lookups(contains, exact, starswith)를 배움
+      # contains, exact, starswith앞에 i를 붙이면 대소문자 구분 안함
+
+      #jyoon study 1-56 deep realationd
+      #설명 : js에서 dot notation으로 객체에 접근하는걸 python에서는 __로 다음 객체에 접근하네!@
+      #eg
+      # title: 'hello',
+      # creator: (User: 
+      #       id: 1, 
+      #       username: 'nomadmin'
+      # )
+      # models.Image.objects.filter(creator__username__in='noma')
+
+      images = models.Image.objects.filter(tags__name__in=hashtags).distinct()
+
+      serializer = serializers.CountImageSerializer(images, many=True)
+      # serializer = serializers.ImageSerializer(images, many=True)
+
+      return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    else:
+      print('######')
+      print(status.HTTP_400_BAD_REQUEST)
+      return Response(status=status.HTTP_400_BAD_REQUEST)
+  

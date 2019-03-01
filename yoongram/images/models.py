@@ -58,10 +58,10 @@ class Comment(TimeStampedModel):
   creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True)
   # jyoon Study : related_name은 serializers.py에서 사용하는 name임.
   # jyoon Study : Hidden Model Fields setting -> rlated_name="comments" property
-  image = models.ForeignKey(Image, on_delete=models.PROTECT, related_name="commentsInImage")
+  image = models.ForeignKey(Image, on_delete=models.PROTECT, related_name="comments")
 
   def __str__(self):
-    return '메세지 압니다. : {}'.format(self.message)
+    return '메세지 입니다. : {}'.format(self.message)
 
 @python_2_unicode_compatible
 class Like(TimeStampedModel):
