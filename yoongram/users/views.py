@@ -110,12 +110,8 @@ class Search(APIView):
     username = request.query_params.get('username', None)
     print(username)
     if username is not None:
-      print('1###########')
       users = models.User.objects.filter(username__istartswith=username)
-      print('2##################')
-      print(users)
       serializer = serializers.ListUsersSerializer(users, many=True)
-      # print(serializer)
       return Response(data=serializer.data, status=status.HTTP_200_OK)
     else:
       return Response(status=status.HTTP_400_BAD_REQUEST)
