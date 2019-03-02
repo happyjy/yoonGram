@@ -7,11 +7,10 @@ from rest_framework.views import APIView
 from yoongram import users
 
 from . import models, serializers
+from yoongram.notifications import views as notifications_views
 
 # from yoongram.images.models import Like
 # from yoongram.users.views import user_detail_view
-
-
 
 class Feed(APIView):
   def get(self, request, format=None):
@@ -151,6 +150,10 @@ class LikeOnImage(APIView):
         )
 
         new_like.save()
+
+        # #1-60 Creating Follow, Comment and Like notification
+        notifications_views.create_notification(
+          user, found_image.creator, 'like', found_image)
         
     return Response(status=status.HTTP_201_CREATED)
 
@@ -180,6 +183,11 @@ class CommentOnImage(APIView):
       # font-end에서 받아온 json type data를 serilaize하고 
       # .save시 꽂아 준다!!!
       serializer.save(creator=user, image=found_image)
+      
+      # #1-60 Creating Follow, Comment and Like notification
+      notifications_views.create_notification(
+        user, found_image.creator, 'comment', found_image, serializer.data['message'])
+
       return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     else:
       return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQEST)
@@ -194,8 +202,6 @@ class Comment(APIView):
       print("### Comment APIView")
 
       user = request.user
-      
-      # create notifications for like 
 
       print(user)
       print(comment_id)

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from . import models, serializers
-
+from yoongram.notifications import views as notifications_views
 
 class ExploreUsers(APIView):
   def get(self, request, format=None):
@@ -22,10 +22,12 @@ class FollowUser(APIView):
     except models.User.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
     
-    #1-49 Associate user_to_follow with User
     #https://docs.djangoproject.com/en/1.11/ref/models/relations/#django.db.models.fields.related.RelatedManager.add
     user.following.add(user_to_follow)
     user.save()
+
+    #1-49 Associate user_to_follow with User
+    notifications_views.create_notification(user, user_to_follow, 'follow')
 
     return Response(status=status.HTTP_200_OK)
 

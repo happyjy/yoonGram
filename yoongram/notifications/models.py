@@ -9,8 +9,7 @@ from yoongram.images import models as image_models
 
 # Create your models here.
 @python_2_unicode_compatible
-# class Notification(image_models.TimeStampedModel):
-class Notification(models.Model):
+class Notification(image_models.TimeStampedModel):
 
   # ### #1-58 안에 있는 중괄호 
   # 첫번째 param: 장고 패널을 위한 필드 
@@ -32,4 +31,10 @@ class Notification(models.Model):
   to = models.ForeignKey(user_models.User, on_delete=models.PROTECT, related_name='to')
   notification_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
   image = models.ForeignKey(image_models.Image, on_delete=models.PROTECT, null=True, blank=True)
-  comment = models.TextField(null=True, blank=True)
+  comment = models.TextField(null=True, blank=True) 
+  
+  class Meta:
+    ordering = ['-created_at']
+
+  def __str__(self):
+    return 'From: {} - To: {}'.format(self.creator, self.to)
