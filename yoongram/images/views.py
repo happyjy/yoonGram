@@ -119,6 +119,9 @@ class LikeOnImage(APIView):
     user = request.user
     # #1-44 Restricting Likes 
     # #1-44 step1 이미지 있나 확인!
+
+    # create notifications for like 
+
     try:
       found_image = models.Image.objects.get(id=image_id)
       print(found_image)  # models.py > Image class > __str__ 포멧 형식
@@ -191,6 +194,8 @@ class Comment(APIView):
       print("### Comment APIView")
 
       user = request.user
+      
+      # create notifications for like 
 
       print(user)
       print(comment_id)

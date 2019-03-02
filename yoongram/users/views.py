@@ -48,6 +48,9 @@ class UserProfile(APIView):
   def get(self, request, username, format=None):
     try:
       found_user = models.User.objects.get(username=username)
+
+      # create notifications for like 
+
     except models.User.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -63,6 +66,7 @@ class UserFollowerUser(APIView):
       found_user = models.User.objects.get(username=username)
       print(username)
       print(found_user)
+
     except models.User.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
