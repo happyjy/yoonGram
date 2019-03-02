@@ -72,7 +72,8 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'yoongram.users.apps.UsersAppConfig',
-    'yoongram.images.apps.ImagesConfig'
+    'yoongram.images.apps.ImagesConfig',
+    'yoongram.notifications.apps.NotificationsConfig'  # notifications app
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

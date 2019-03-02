@@ -23,7 +23,6 @@ class ImageAdmin(admin.ModelAdmin):
   list_filter = (
     'location',
     'creator',
-
   )
 
   # Create table list Image admin page 

@@ -108,6 +108,7 @@ class Search(APIView):
     if username is not None:
       print('1###########')
       users = models.User.objects.filter(username__istartswith=username)
+      print('2##################')
       print(users)
       serializer = serializers.ListUsersSerializer(users, many=True)
       # print(serializer)
