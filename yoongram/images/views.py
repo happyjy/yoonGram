@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from yoongram import users
+from yoongram.images.serializers import user_model
+from yoongram.notifications import views as notifications_views
 
 from . import models, serializers
-from yoongram.notifications import views as notifications_views
 
 # from yoongram.images.models import Like
 # from yoongram.users.views import user_detail_view
@@ -272,3 +273,19 @@ class ModerateComments(APIView):
       return Response(status=status.HTTP_404_NOT_FOUND)
 
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ImageDetail(APIView):
+  def get(self, request, image_id, format=None):
+
+    # user를 검색 조건에 넣지 않은 이유
+    user = request.user
+
+    try:
+      image = models.Image.objects.get(id=image_id, creator=user)
+      # image = models.Image.objects.get(id=image_id)
+    except models.Image.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = serializers.ImageSerializer(image)
+
+    return Response(data=serializer.data, status=status.HTTP_200_OK)

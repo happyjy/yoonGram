@@ -8,6 +8,7 @@ from . import views
 app_name = "images"
 urlpatterns = [
     path("", view=views.Feed.as_view(), name="feed"),
+    path("<int:image_id>/", view=views.ImageDetail.as_view(), name="imageDetail"),
     # 1-41/step1. take the id from the url
     path("<int:image_id>/like/", view=views.LikeOnImage.as_view(), name="like_image"),
     path("<int:image_id>/unlike/", view=views.UnLikeOnImage.as_view(), name="unlike_image"),
