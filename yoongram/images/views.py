@@ -19,19 +19,20 @@ class Feed(APIView):
     # 로그인하는 유저의 follwing을 조회
     following_users = user.following.all()
     # print(following_users)
-
+    
     image_list = []
 
     for following_user in following_users:
-
       # print(following_user)
       # jyoon study : iterator(for), 갯수제한... 와놀라움. 
       # print(following_user.images.all()[:1])
       user_images = following_user.images.all()[:2]
-
       for image in user_images:
           image_list.append(image)
 
+    my_images = user.images.all()
+    for image in my_images:
+      image_list.append(image)
   
     # print(image_list)
     # image_list : following을 기준으로 image가 있다.
