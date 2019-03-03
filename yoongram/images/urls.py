@@ -10,9 +10,9 @@ urlpatterns = [
     path("", view=views.Feed.as_view(), name="feed"),
     path("<int:image_id>/", view=views.ImageDetail.as_view(), name="imageDetail"),
     # 1-41/step1. take the id from the url
-    path("<int:image_id>/like/", view=views.LikeOnImage.as_view(), name="like_image"),
-    path("<int:image_id>/unlike/", view=views.UnLikeOnImage.as_view(), name="unlike_image"),
-    path("<int:image_id>/comment/", view=views.CommentOnImage.as_view(), name="comment_image"),
+    path("<int:image_id>/likes/", view=views.LIkeImage.as_view(), name="like_image"),
+    path("<int:image_id>/unlikes/", view=views.UnLIkeImage.as_view(), name="unlike_image"),
+    path("<int:image_id>/comment/", view=views.CommentImage.as_view(), name="comment_image"),
     path("<int:image_id>/comment/<int:comment_id>", view=views.ModerateComments.as_view(), name="moderateComments_image"),
     path("comment/<int:comment_id>", view=views.Comment.as_view(), name="comment"),
     path("search/", view=views.Search.as_view(), name="search"),

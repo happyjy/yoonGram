@@ -42,7 +42,7 @@ class Image(TimeStampedModel):
     return self.comments.all().count()
 
   def __str__(self):
-    return '### THIS IS IMAGE STRING VALUE : {} - {}'.format(self.location, self.caption)
+    return '### IMAGE MODEL : {} - {}'.format(self.location, self.caption)
   
   # meta 설정으로 모델설정한다 
   # - ordering:정렬(생선한 날짜 역순)
@@ -61,7 +61,7 @@ class Comment(TimeStampedModel):
   image = models.ForeignKey(Image, on_delete=models.PROTECT, related_name="comments")
 
   def __str__(self):
-    return '메세지 입니다. : {}'.format(self.message)
+    return '###COMMENT MODEL : {}'.format(self.message)
 
 @python_2_unicode_compatible
 class Like(TimeStampedModel):

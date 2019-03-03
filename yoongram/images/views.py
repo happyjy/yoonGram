@@ -4,8 +4,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from yoongram import users
-from yoongram.images.serializers import user_model
+# from yoongram import users
+# from yoongram.images.serializers import user_model
+from yoongram.users import models as user_models
+from yoongram.users import serializers as user_serializers
 from yoongram.notifications import views as notifications_views
 
 from . import models, serializers
@@ -89,7 +91,7 @@ class ListAllLikes(APIView):
     
 
 # 1-48
-class UnLikeOnImage(APIView):
+class UnLIkeImage(APIView):
   def delete(self, request, image_id, format=None):
     user = request.user
     try:
@@ -110,19 +112,38 @@ class UnLikeOnImage(APIView):
 
 
 # 1-41/step0. create the url and the view
-class LikeOnImage(APIView):
+class LIkeImage(APIView):
   def get(self, request, image_id, format=None):
+    """ image에 좋아요를 누른 사용자 찾는 api"""
+    likes = models.Like.objects.filter(image__id=image_id)
+    # print(likes)
+    # values() 참고 
+    # https://docs.djangoproject.com/en/2.1/ref/models/querysets/#values
+    print(likes.values())
+    like_creators_ids = likes.values('creator_id')
+    # #in
+    # https://docs.djangoproject.com/en/2.1/ref/models/querysets/#in
+    # User모델에 like_creators_ids(array type)value가 있는지 검색하는거에요~
+    users = user_models.User.objects.filter(id__in=like_creators_ids)
+    serializer = user_serializers.ListUsersSerializer(users, many=True)
+    return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    print(users)
+
+  def post(self, request, image_id, format=None):
     
-    print('### LikeOnImage APIView')
+    print('### LIkeImage APIView')
     print(image_id)
     print(request)
 
     user = request.user
     # #1-44 Restricting Likes 
+    # step1,2,3,
+    # step1 이미지 유무 확인
+    # step2 좋아요한 이미지라면 좋아요 삭제!
+    # step3 좋아요한 이미지 아니라면 좋아요!
+
     # #1-44 step1 이미지 있나 확인!
-
-    # create notifications for like 
-
     try:
       found_image = models.Image.objects.get(id=image_id)
       print(found_image)  # models.py > Image class > __str__ 포멧 형식
@@ -130,7 +151,7 @@ class LikeOnImage(APIView):
     except models.Image.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
-    # #1-44 step2 이미지가 있다면 삭제!
+    # #1-44 step2 좋아요한 이미지라면 좋아요 삭제
     # try:
     #   preExisiting_like = models.Like.objects.get(
     #     creator=user,
@@ -145,7 +166,7 @@ class LikeOnImage(APIView):
       return Response(status=status.HTTP_304_NOT_MODIFIED)
 
     except models.Like.DoesNotExist:
-      # #1-44 step3 이미지가 없다면 저장~
+      # #1-44 step3 좋아요한 이미지 아니라면 좋아요!
         new_like = models.Like.objects.create(
           creator=user,
           image=found_image
@@ -160,9 +181,9 @@ class LikeOnImage(APIView):
     return Response(status=status.HTTP_201_CREATED)
 
 
-class CommentOnImage(APIView):
+class CommentImage(APIView):
   def post(self, request, image_id, format=None):
-    print('### CommentOnImage APIView')
+    print('### CommentImage APIView')
     print(request.data) #[local host address]/images/6/comment/ 페이지에서 입력한 메세지의 내용
 
     user = request.user
@@ -277,12 +298,12 @@ class ModerateComments(APIView):
 class ImageDetail(APIView):
   def get(self, request, image_id, format=None):
 
-    # user를 검색 조건에 넣지 않은 이유
-    user = request.user
+    # user를 검색 조건에 넣지 않은 이유 : 로그인사용자의 사진만 보는걸 목표로하지 않기 때문에
+    # user = request.user
 
     try:
-      image = models.Image.objects.get(id=image_id, creator=user)
-      # image = models.Image.objects.get(id=image_id)
+      # image = models.Image.objects.get(id=image_id, creator=user)
+      image = models.Image.objects.get(id=image_id)
     except models.Image.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
