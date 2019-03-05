@@ -310,3 +310,25 @@ class ImageDetail(APIView):
     serializer = serializers.ImageSerializer(image)
 
     return Response(data=serializer.data, status=status.HTTP_200_OK)
+  
+  def put(self, request, image_id, format=None):
+    user = request.user
+
+    try:
+      image = models.Image.objects.get(id=image_id, creator=user)
+    except models.Image.DoesNotExitst:
+      return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    # jyoon study - partial=True 하는 이유는 뭘까요? 
+    # InputImageSerializer에 사용하는 model은 모두 필수다.
+    # 그런데 변경할때 모든 필드를 업데이트 하지 않으면 에러가난다.
+    # 그래서 부분데이터만 있어도 업데이트 가능하게 하기 위해서 partial 옵션을 사용한다.
+    serializer = serializers.InputImageSerializer(
+      image, data=request.data, partial=True)
+    print(serializer)
+
+    if serializer.is_valid():
+      serializer.save(creator=user)
+      return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
+    else:
+      return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
