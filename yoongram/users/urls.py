@@ -17,6 +17,8 @@ urlpatterns = [
     path("<slug:username>/following/", view=views.UserFollowingUser.as_view(), name="following_user"),
     path("search/", view=views.Search.as_view(), name="search"),
     path("<slug:username>/", view=views.UserProfile.as_view(), name="username"),
+    path("<slug:username>/password", view=views.ChangePassword.as_view(), name="change"),
+
     # re_path(r"^(?P<username>[\w-]+)/$/", view=views.UserProfile.as_view(), name="user_profile")
 
     # #1-47 삭제 예정
