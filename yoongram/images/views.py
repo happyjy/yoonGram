@@ -296,6 +296,18 @@ class ModerateComments(APIView):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ImageDetail(APIView):
+
+  # jyoon study - image object에 image_id, user 정보를 넘겨 
+  # 본인이 올린 사진 유무를 확인
+  def find_own_image(self, image_id, user):
+    print("#########################")
+    print(self)
+    try:
+      image = models.Image.objects.get(id=image_id, creator=user)
+      return image
+    except models.Image.DoesNotExist:
+      return None
+
   def get(self, request, image_id, format=None):
 
     # user를 검색 조건에 넣지 않은 이유 : 로그인사용자의 사진만 보는걸 목표로하지 않기 때문에
@@ -314,9 +326,9 @@ class ImageDetail(APIView):
   def put(self, request, image_id, format=None):
     user = request.user
 
-    try:
-      image = models.Image.objects.get(id=image_id, creator=user)
-    except models.Image.DoesNotExitst:
+    image = self.find_onw_image(image_id, user)
+
+    if image is None:
       return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     # jyoon study - partial=True 하는 이유는 뭘까요? 
@@ -332,3 +344,16 @@ class ImageDetail(APIView):
       return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
     else:
       return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  def delete(self, request, image_id, format=None):
+    user = request.user
+    
+    # jyoon study - class안 function 호출시 self 호출해야한다.
+    image = self.find_own_image(image_id, user)
+
+    if image is None:
+      return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    image.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
