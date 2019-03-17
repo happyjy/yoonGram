@@ -7,15 +7,18 @@ from django.views import defaults as default_views
 from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
-    re_path(r'^rest-auth/', include('rest_auth.urls')),
-    re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     
     # User management
+    # #1-72 Signing Up Loggin In
+    re_path(r'^rest-auth/', include('rest_auth.urls')),
+    re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    # url(r'^rest-auth/', include('rest_auth.urls')),
+    
     # #1-70 Setting up JWT token 
-    path("api-token-auth/", obtain_jwt_token),
+    # path("api-token-auth/", obtain_jwt_token),
     path(
       "users/",
       include("yoongram.users.urls", namespace="users"),

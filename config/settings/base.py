@@ -68,12 +68,11 @@ THIRD_PARTY_APPS = [
     'allauth.account',  #registration
     'allauth.socialaccount',  #registration
     'rest_framework',   # REST framework
-    'rest_framework.authtoken',
+    'rest_framework.authtoken', # jwt token을 주로 사용할것이지만 오류나면 안되니까 설정해둔 app
     'taggit',  # Tags for the photos
-    'taggit_serializer' # tag serializer
-    
-    # 'rest_auth', # rest auth
-    # 'rest_auth.registration' # endable registration
+    'taggit_serializer', # tag serializer
+    'rest_auth', # rest auth
+    'rest_auth.registration' # enable registration
 ]
 LOCAL_APPS = [
     'yoongram.users.apps.UsersAppConfig',
