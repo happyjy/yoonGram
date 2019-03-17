@@ -49,20 +49,20 @@ class Images(APIView):
     # return Response(status=200)
     return Response(serializer.data)
 
-def post(self, request, image_id, format=None):
-    user = request.user
+  def post(self, request, format=None):
+      user = request.user
 
-    serializer = serializers.InputImageSerializer(data=request.data)
+      serializer = serializers.InputImageSerializer(data=request.data)
 
-    if serializer.is_valid():
-      serializer.save(creator=user)
-      return Response(data=serializer.data, status=status.HTTP_201_CREATRED)
-    else:
-      return Response(data=serializer.errorsㅊ, status=status.HTTP_400_BAD_REQUEST)
+      if serializer.is_valid():
+        serializer.save(creator=user)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+      else:
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def get_key(image):
-    return image.created_at
+  def get_key(image):
+      return image.created_at
 
 
 # urls, views 개념 익히기 위한 테스트성 코드 / #1-39 단계에서 언급
