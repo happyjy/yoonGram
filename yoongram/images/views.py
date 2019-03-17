@@ -15,7 +15,7 @@ from . import models, serializers
 # from yoongram.images.models import Like
 # from yoongram.users.views import user_detail_view
 
-class Feed(APIView):
+class Images(APIView):
   def get(self, request, format=None):
     #1-39 follow하는 사람의 최근 사진이 보이도록 코딩!
     user = request.user
@@ -48,6 +48,19 @@ class Feed(APIView):
     
     # return Response(status=200)
     return Response(serializer.data)
+
+def post(self, request, image_id, format=None):
+    user = request.user
+
+    serializer = serializers.InputImageSerializer(data=request.data)
+
+    if serializer.is_valid():
+      serializer.save(creator=user)
+      return Response(data=serializer.data, status=status.HTTP_201_CREATRED)
+    else:
+      return Response(data=serializer.errorsㅊ, status=status.HTTP_400_BAD_REQUEST)
+
+
 def get_key(image):
     return image.created_at
 
@@ -257,7 +270,7 @@ class Search(APIView):
       #jyoon study 1-56 Field lookups(contains, exact, starswith)를 배움
       # contains, exact, starswith앞에 i를 붙이면 대소문자 구분 안함
 
-      #jyoon study 1-56 deep realationd
+      #jyoon study 1-56 deep realation
       #설명 : js에서 dot notation으로 객체에 접근하는걸 python에서는 __로 다음 객체에 접근하네!@
       #eg
       # title: 'hello',

@@ -70,9 +70,10 @@ THIRD_PARTY_APPS = [
     'rest_framework',   # REST framework
     'rest_framework.authtoken',
     'taggit',  # Tags for the photos
-    'taggit_serializer', # tag serializer
-    'rest_auth', # rest auth
-    'rest_auth.registration' # endable registration
+    'taggit_serializer' # tag serializer
+    
+    # 'rest_auth', # rest auth
+    # 'rest_auth.registration' # endable registration
 ]
 LOCAL_APPS = [
     'yoongram.users.apps.UsersAppConfig',
