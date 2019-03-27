@@ -1,10 +1,13 @@
 from django.conf import settings
-from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic import TemplateView
+from django.urls import include, path, re_path
 from django.views import defaults as default_views
+from django.views.generic import TemplateView
 from rest_framework_jwt.views import obtain_jwt_token
+
+from yoongram import views
+from yoongram.views import ReactAppView
 
 urlpatterns = [
 
@@ -35,7 +38,9 @@ urlpatterns = [
     ),
 
     path("accounts/", include("allauth.urls")),
+
     # Your stuff: custom urls includes go here
+    re_path("", views.ReactAppView.as_view()),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )
