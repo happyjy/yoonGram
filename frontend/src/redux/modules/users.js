@@ -28,7 +28,7 @@ const initialState = {
 };
 
 // reducer
-function reducer( state = initialState, action){
+function reducer( state = initialState, actions){
   switch (actions.type){
     default: 
       return state;
