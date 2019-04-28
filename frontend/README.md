@@ -1,3 +1,5 @@
+frontend folder에서 `yarn start`로 developments modefh app을 실행 할 수 있다.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
