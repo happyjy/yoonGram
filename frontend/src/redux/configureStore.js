@@ -1,12 +1,13 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { routerMiddleware, connectRouter } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import users from 'redux/modules/users';
+import Reactotron from "ReactotronConfig";
 // import createHistory from "history/createBrowserHistory";
 
 const env = process.env.NODE_ENV;
-console.log("### env : "); // node 전체 정보를 갖고 있는 variable임
+console.log("### ENV : "); // node 전체 정보를 갖고 있는 variable임
 console.log(process); // node 전체 정보를 갖고 있는 variable임
 
 const history = createBrowserHistory(); //history 생성
@@ -28,8 +29,18 @@ const reducer = combineReducers({
   router: connectRouter(history)
 });
 
-let store = initialState => 
-  createStore(reducer, applyMiddleware(...middlewares));
+
+// 환경에 따라 Reactotron Store를 사용할지 reduxStore를 사용할지 정함.
+let store;
+if (env === "development"){
+  store = initialState => 
+        createStore(reducer, compose(applyMiddleware(...middlewares), Reactotron.createEnhancer()));
+  // store = initialState => 
+  //   Reactotron.createStore(reducer, applyMiddleware(...middlewares));
+} else {
+  store = initialState => 
+    createStore(reducer, applyMiddleware(...middlewares));
+}
 
 export { history };
 export default store();
