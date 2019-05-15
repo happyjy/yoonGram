@@ -1,9 +1,10 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";//, compose
 import thunk from "redux-thunk";
 import { routerMiddleware, connectRouter } from "connected-react-router";
 import { createBrowserHistory } from "history";
+import { composeWithDevTools } from "redux-devtools-extension";
 import users from 'redux/modules/users';
-import Reactotron from "ReactotronConfig";
+// import Reactotron from "ReactotronConfig";
 // import createHistory from "history/createBrowserHistory";
 
 const env = process.env.NODE_ENV;
@@ -33,8 +34,12 @@ const reducer = combineReducers({
 // 환경에 따라 Reactotron Store를 사용할지 reduxStore를 사용할지 정함.
 let store;
 if (env === "development"){
-  store = initialState => 
-        createStore(reducer, compose(applyMiddleware(...middlewares), Reactotron.createEnhancer()));
+  store = initialState => createStore(reducer, composeWithDevTools(applyMiddleware(...middlewares)));
+  // ### A: Reactotron 시도할 때 B부분 안되서 이렇게 시도
+  // store = initialState => 
+  //       createStore(reducer, compose(applyMiddleware(...middlewares), Reactotron.createEnhancer()));
+
+  // ### B : 이 부분 안되서 A 방법 시도
   // store = initialState => 
   //   Reactotron.createStore(reducer, applyMiddleware(...middlewares));
 } else {
