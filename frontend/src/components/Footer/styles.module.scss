@@ -1,0 +1,27 @@
+@import "../../config/_variables";
+
+.footer{
+  max-width: $max-page-width;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  .column{
+    .nav{
+      .list{
+        display: flex;
+        .listItem{
+          margin-right: 10px;
+          // color: $dark-blue;
+        }
+      }
+    }
+    .copyright{
+      // color: $dark-grey;
+    }
+  }
+}
