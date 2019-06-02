@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import styles from "./styles.module.scss";
-import Footer from "components/Footer";
+import { connect } from "react-redux";
+import Container from "./container";
 
-class App extends Component {
-  render() {
-    return (
-      <div className={styles.App}>
-        <h1> Hello react </h1>
-        <Footer/>
-      </div>
-    );
-  }
-}
+const mapStateToProps = (state, ownProps) => {
+  const { user } = state;
+  console.log("### jyoon check state : ", state);
+  console.log("### jyoon check {state} : ", {state});
+  console.log("### jyoon check user : " , user);
+  
+  return {
+    isLoggedIn: user.isLoggedIn
+  };
+};
 
-export default App;
+export default connect(mapStateToProps)(Container);

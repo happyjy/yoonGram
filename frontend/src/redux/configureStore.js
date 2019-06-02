@@ -4,7 +4,7 @@ import { routerMiddleware, connectRouter } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { i18nState } from "redux-i18n";
-import users from 'redux/modules/users';
+import user from 'redux/modules/user';
 // import Reactotron from "ReactotronConfig";
 // import createHistory from "history/createBrowserHistory";
 
@@ -27,7 +27,7 @@ if(env === "development"){
 // 여러 리듀서를 합치는 과정 
 // 여기에 추가할 리듀서를 작성하면 됨 eg) 라우팅, 미들웨어 등등
 const reducer = combineReducers({
-  users,
+  user,
   router: connectRouter(history),
   i18nState
 });
