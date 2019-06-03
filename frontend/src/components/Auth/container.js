@@ -1,29 +1,29 @@
+
 import React, { Component } from "react";
 import Auth from "./presenter";
 
 class Container extends Component {
   state = {
-    actions: "login"
-  }
-
+    action: "login"
+  };
   render() {
     const { action } = this.state;
-    return <Auth actions={action} changeActions={this._changeAction} />;
+    return <Auth action={action} changeAction={this._changeAction} />;
   }
   _changeAction = () => {
     this.setState(prevState => {
-      const { actions } = prevState;
-      if(actions === "login"){
+      const { action } = prevState;
+      if (action === "login") {
         return {
-          actions: "signup"
-        }
-      } else if(actions === "signup"){
+          action: "signup"
+        };
+      } else if (action === "signup") {
         return {
-          actions: "login"
-        }
+          action: "login"
+        };
       }
     });
-  }
+  };
 }
 
 export default Container;
