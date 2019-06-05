@@ -1,4 +1,5 @@
 import React from "react";
+import Ionicon from "react-ionicons";
 // import styles from "./styles.module.scss";
 
 // export const LoginForm = props => <h1>login</h1>;
@@ -10,7 +11,10 @@ export const LoginForm = props => (
       <input type="submit" value="Log in" />
     </form>
     <span>or</span>
-    <span>Log in with Facebook</span>
+    <span>
+      <Ionicon icon="logo-facebook" fontSize="20px" color="#385185"/>
+      Log in with Facebook
+    </span>
     <span>Forgot password?</span>
   </div>
 
@@ -19,7 +23,11 @@ export const LoginForm = props => (
 export const SignupForm = props => (
   <div>
     <h3>Sign up to see photos and videos from your friends.</h3>
-    <button>with Facebook</button>
+    <button>
+      {""}
+      <Ionicon icon="logo-facebook" fontSize="20px" color="white"/>
+      Log in with Facebook
+    </button>
     <span>or</span>
     <form>
       <input type="email" placeholder="Email"/>
