@@ -14,9 +14,11 @@
   }
   .column {
     width: 40%;
+    
     @include breakpoint("phone") {
       &:first-child {
         display: none;
+        border: 1px red solid;
       }
     }
     // @include breakpoint("tablet") {

@@ -3,7 +3,8 @@ export const translation = {
     "Login in": "Iniciar Sesion"
   },
   kr: {
-    "Login in": "로그인"
+    "Login in": "로그인",
+    "About Us": "우리에 대해서"
   }
 
 }
