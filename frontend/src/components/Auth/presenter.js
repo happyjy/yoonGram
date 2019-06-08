@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
-import { LoginForm, SignupForm } from "components/AuthForms";
+import LoginForm from "components/LoginForm";
+import SignupForm from "components/SignupForm";
 
 // const Auth = (props, context) => <h1>wadup</h1>;
 const Auth = (props, context) => (
@@ -18,7 +19,7 @@ const Auth = (props, context) => (
       <div className={styles.whiteBox}>
         {props.action === "login" && (
           <p>
-            {context.t("Don't have an account?")}
+            {context.t("Don't have an account?")}{" "}
             <span className={styles.changeLink} onClick={props.changeAction}>
             {context.t("Sign up")}
             </span>
@@ -26,7 +27,7 @@ const Auth = (props, context) => (
         )}
         {props.action === "signup" && (
           <p>
-            {context.t("Have an account?")}
+            {context.t("Have an account?")}{" "}
           <span className={styles.changeLink} onClick={props.changeAction} ß>
             {context.t("Log in")}
           </span>
