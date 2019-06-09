@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import LoginForm from "./presenter";
 
 // const Container = props => <LoginForm {...props} />;
@@ -6,8 +7,12 @@ import LoginForm from "./presenter";
 class Container extends Component {
   state = {
     username: "",
-    password: "" 
+    password: "",
+    
   }
+  static propTypes = {
+    facebookLogin: PropTypes.func.isRequired
+  };
   render() {
     const { username, password } = this.state;
     return <LoginForm
@@ -39,6 +44,9 @@ class Container extends Component {
   _handleFacebookLogin = response => {
     //Pass response value(inclue access token) to redux and api
     console.log("### _handleFacebookLogin > response value : ", response);
+    const { facebookLogin } = this.props;
+    facebookLogin(response.accessToken);
+
   }
 }
 
