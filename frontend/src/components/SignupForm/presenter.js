@@ -12,41 +12,41 @@ const SignupForm = (props, context) => (
     </button>
     <span className={formStyles.divider}>{context.t("or")}</span>
     <form className={formStyles.form} onSubmit={props.handleSubmit}>
-      <input 
-        type="email" 
+      <input
+        type="email"
         name="email"
-        placeholder={context.t("Email")} 
+        placeholder={context.t("Email")}
         value={props.emailValue}
         onChange={props.handleInputChange}
         className={formStyles.textInput}/>
-      <input 
-        type="text" 
+      <input
+        type="text"
         name="fullName"
         value={props.fullNameValue}
         onChange={props.handleInputChange}
-        placeholder={context.t("Full Name")} 
+        placeholder={context.t("Full Name")}
         className={formStyles.textInput}/>
-      <input 
-        type="username" 
+      <input
+        type="username"
         name="username"
         value={props.usernameValue}
         onChange={props.handleInputChange}
-        placeholder={context.t("Username")} 
+        placeholder={context.t("Username")}
         className={formStyles.textInput}/>
-      <input 
-        type="password" 
+      <input
+        type="password"
         name="password"
         value={props.passwordValue}
         onChange={props.handleInputChange}
-        placeholder={context.t("Password")} 
+        placeholder={context.t("Password")}
         className={formStyles.textInput}/>
-      <input 
-        type="submit"        
-        placeholder={context.t("Sign up")} 
+      <input
+        type="submit"
+        placeholder={context.t("Sign up")}
         className={formStyles.button}/>
     </form>
     <p className={formStyles.terms}>
-      {context.t("By signing up, you agree to our")} 
+      {context.t("By signing up, you agree to our")}
       <span> {context.t("Terms & Privacy Policy")}</span>
     </p>
   </div>

@@ -10,11 +10,12 @@ class Container extends Component {
   }
   render() {
     const { username, password } = this.state;
-    return <LoginForm 
+    return <LoginForm
+      usernameValue={username} 
+      passwordValue={password}
       handleInputChange={this._handleInputChange}
       handleSubmit={this._handleSubmit}
-      usernameValue={username} 
-      passwordValue={password} />
+      handleFacebookLogin={this._handleFacebookLogin} />
   }
   _handleInputChange = event => {
     const { target : { value, name } } = event;
@@ -34,6 +35,10 @@ class Container extends Component {
     event.preventDefault();
     console.log("### submit btn > this.state value : ", this.state)
     //redux will be here
+  }
+  _handleFacebookLogin = response => {
+    //Pass response value(inclue access token) to redux and api
+    console.log("### _handleFacebookLogin > response value : ", response);
   }
 }
 
