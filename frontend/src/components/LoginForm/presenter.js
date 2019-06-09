@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Ionicon from "react-ionicons";
 import FacebookLogin from "react-facebook-login"
 import formStyles from "shared/formStyles.module.scss";
 
@@ -27,11 +26,12 @@ const LoginForm = (props, context) => (
     <span>
     <FacebookLogin
       appId="439823963500710"
-      autoLoad={true}
+      autoLoad={false}
+      fields="name,email,picture"
       callback={props.handleFacebookLogin}
       cssClass={formStyles.facebookLink}
       icon="fa-facebook-official"
-      
+      textButton={context.t("Log in with Facebook")}
       // render={renderProps => (
       //   <button onClick={renderProps.onClick}>This is my custom FB button</button>
       // )}
@@ -46,7 +46,7 @@ LoginForm.propTypes = {
   passwordValue: PropTypes.string.isRequired,
   handleInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  handleFacebookLogin: PropTypes.func.isRequired,
+  handleFacebookLogin: PropTypes.func.isRequired
 }
 
 LoginForm.contextTypes = {

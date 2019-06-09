@@ -18,7 +18,8 @@ class Container extends Component {
       usernameValue={username}
       passwordValue={password}
       handleInputChange={this._handleInputChange}
-      handleSubmit={this._handleSubmit}/>
+      handleSubmit={this._handleSubmit}
+      handleFacebookLogin={this._handleFacebookLogin}/>
   }
   _handleInputChange = event => {
     const { target : { value, name }} = event;
@@ -30,6 +31,9 @@ class Container extends Component {
   _handleSubmit = event => {
     event.preventDefault();
     console.log("### submit btn > this.state value : ", this.state)
+  }
+  _handleFacebookLogin = response => {
+    console.log("### _handleFacebookLogin > response value : ", response);
   }
 }
 

@@ -28,6 +28,10 @@
 
   .button {
     @include blueButton();
+    i {
+      font-size: 18px;
+      margin-right: 5px;
+    }
     svg {
       margin-right: 10px;
     }
@@ -59,7 +63,7 @@
       right: 0;
       top: 6px;
       opacity: 0.8;
-    }∑
+    }
   }
 
   .facebookLink {
