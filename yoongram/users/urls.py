@@ -18,6 +18,7 @@ urlpatterns = [
     path("search/", view=views.Search.as_view(), name="search"),
     path("<slug:username>/", view=views.UserProfile.as_view(), name="username"),
     path("<slug:username>/password", view=views.ChangePassword.as_view(), name="change"),
+    # path("login/facebook/", view=views.Facebook.as_view(), name="fb_login"),
 
     # re_path(r"^(?P<username>[\w-]+)/$/", view=views.UserProfile.as_view(), name="user_profile")
 
