@@ -12,5 +12,4 @@ class UsersAppConfig(AppConfig):
         except ImportError:
             pass
         
-        
-        from .signals import user_signed_up
+     

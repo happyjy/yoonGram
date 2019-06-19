@@ -40,8 +40,8 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
 
     # Your stuff: custom urls includes go here
-    # django에서 react작업한것으로 front를 호출하는 장소 
-    re_path("", views.ReactAppView.as_view()),
+    # django에서 react 작업한것으로 front를 호출하는 장소 
+    # re_path("", views.ReactAppView.as_view()),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )

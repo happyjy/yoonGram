@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_auth.registration.serializers import RegisterSerializer
 
 from yoongram.images import serializers as images_serializers
 from yoongram.users.admin import User
