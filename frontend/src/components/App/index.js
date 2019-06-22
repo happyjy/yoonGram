@@ -3,9 +3,9 @@ import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
   const { user } = state;
-  console.log("### jyoon check state : ", state);
-  console.log("### jyoon check {state} : ", {state});
-  console.log("### jyoon check user : " , user);
+  console.log("### App/index.js check state : ", state);
+  console.log("### App/index.js check {state} : ", {state});
+  console.log("### App/index.js check user : " , user);
   
   return {
     isLoggedIn: user.isLoggedIn
