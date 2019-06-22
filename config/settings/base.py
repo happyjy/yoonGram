@@ -78,10 +78,11 @@ THIRD_PARTY_APPS = [
 
 ]
 LOCAL_APPS = [
+    # custom users app
     'yoongram.users.apps.UsersAppConfig',
+    # Your stuff: custom apps go here
     'yoongram.images.apps.ImagesConfig',
     'yoongram.notifications.apps.NotificationsConfig'  # notifications app
-    # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -279,43 +280,47 @@ ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 CORS_ORIGIN_ALLOW_ALL = True
 
-JWT_AUTH ={
+JWT_AUTH = {
   'JWT_VERIFY_EXPIRATION': False
 }
 
 # FACEBOOK LOGIN INFO 
-SOCIALACCOUNT_PROVIDERS = {  
-    'facebook': {  
-        'SCOPE': [  
-            'email',  
-            'public_profile',  
-            'user_friends'  
-        ],  
-        'FIELDS': [  
-            'id',  
-            'email',  
-            'name',  
-            'first_name',  
-            'last_name',  
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': [
+            'email',
+            'public_profile',
+            'user_friends'
+        ],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
             'verified',
-            'locale',  
-            'timezone',  
-            'link',  
-            'gender',  
+            'locale',
+            'timezone',
+            'link',
+            'gender',
             'updated_time',
-            'picture' 
-        ],  
-        'AUTH_PARAMS': {  
-            #'auth_type': 'reauthenticate'  
-        },  
-        'METHOD': 'oauth2',  
-        #'LOCALE_FUNC': 'path.to.callable',  
-        'VERIFIED_EMAIL': True,  
-        'VERSION': 'v2.4'  
+            'picture'
+        ],
+        'AUTH_PARAMS': {
+            #'auth_type': 'reauthenticate'
+        },
+        'METHOD': 'oauth2',
+        #'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v2.4'
     }
 }  
 
 # FACEBOOK LOGIN INFO 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'yoongram.users.serializers.SignUpSerializer'
+}
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'yoongram.users.serializers.UserProfileSerializer'
 }

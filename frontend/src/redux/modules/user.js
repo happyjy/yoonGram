@@ -5,6 +5,7 @@
  *   actions
  *   actions creators: 리덕스 state를 바꿀때 사용
  *   API action: api호출시 사용
+
  *   initial state
  *   reducer
  *   reducer function
@@ -12,10 +13,6 @@
  *   reducer export
  * 
  * */
-
-
-
-
 
 // imports
 
@@ -31,11 +28,11 @@ function saveToken(token){
 }
 
 // api action
-function facebookLogin(access_token){
+function facebookLogin(access_token) {
   return dispatch => {
     fetch("/users/login/facebook/", {
       method: "POST",
-      header: {
+      headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -45,16 +42,39 @@ function facebookLogin(access_token){
       .then(response => response.json())
       .then(json => {
         console.log("### facebookLogin json value: ", json)
-        if(json.token){
-          localStorage.setItem("jwt", json.token);
+        if (json.token) {
           dispatch(saveToken(json.token));
         }
       })
       .catch(err => console.log("### facebookLogin err: ", err));
   };
 }
-
-
+  
+  //urls.py > re_path(r'^rest-auth/', include('rest_auth.urls')), 코드로 요청하는 것임. 
+  //django tivix documents참고  
+  function usernameLogin(username, password) {
+    return dispatch => {
+      fetch("/rest-auth/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      })
+     
+      .then(response => response.json())
+      .then(json => {
+        console.log("### usernameLogin json value: ", json)
+        if (json.token) {
+          dispatch(saveToken(json.token));
+        }
+      })
+      .catch(err => console.log(err));
+  };
+}
 
 // initial state
 const initialState = {
@@ -74,6 +94,7 @@ function reducer( state = initialState, action){
 // reducer function
 function applySetToken(state, action) {
   const { token } = action;
+  localStorage.setItem("jwt", token);
   return {
     ...state,
     isLoggedIn: true,
@@ -83,7 +104,8 @@ function applySetToken(state, action) {
 
 // exports
 const actionCreators = {
-  facebookLogin
+  facebookLogin, 
+  usernameLogin
 }
 export { actionCreators };
 

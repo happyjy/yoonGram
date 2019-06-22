@@ -11,7 +11,8 @@ class Container extends Component {
     
   }
   static propTypes = {
-    facebookLogin: PropTypes.func.isRequired
+    facebookLogin: PropTypes.func.isRequired,
+    usernameLogin: PropTypes.func.isRequired
   };
   render() {
     const { username, password } = this.state;
@@ -37,16 +38,19 @@ class Container extends Component {
     // console.log("### LoginForm container > LoginForm > event.target.value: ", event.target.value);
   }
   _handleSubmit = event => {
-    event.preventDefault();
     console.log("### submit btn > this.state value : ", this.state)
+    const { usernameLogin } = this.props;
+    const { username, password } = this.state;
+    event.preventDefault();
+    usernameLogin(username, password);
     //redux will be here
+
   }
   _handleFacebookLogin = response => {
     //Pass response value(inclue access token) to redux and api
     console.log("### _handleFacebookLogin > response value : ", response);
     const { facebookLogin } = this.props;
     facebookLogin(response.accessToken);
-
   }
 }
 

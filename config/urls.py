@@ -16,12 +16,13 @@ urlpatterns = [
     
     # User management
     # #1-72 Signing Up Loggin In
+    # url(r'^rest-auth/', include('rest_auth.urls')),
+    # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     re_path(r'^rest-auth/', include('rest_auth.urls')),
     re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    # url(r'^rest-auth/', include('rest_auth.urls')),
     
     # #1-70 Setting up JWT token 
-    # path("api-token-auth/", obtain_jwt_token),
+    path("api-token-auth/", obtain_jwt_token),
     path(
       "users/",
       include("yoongram.users.urls", namespace="users"),
@@ -41,7 +42,8 @@ urlpatterns = [
 
     # Your stuff: custom urls includes go here
     # django에서 react 작업한것으로 front를 호출하는 장소 
-    # re_path("", views.ReactAppView.as_view()),
+    # 아래 주석 제거하고 http://127.0.0.1:8000/admin/ 접속하면 장고 어드민 화면 확인 가능
+    re_path("", views.ReactAppView.as_view()),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )

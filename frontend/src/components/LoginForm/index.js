@@ -8,8 +8,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     //이 함수를 불렀을때 user actions facebook login을 디스패치
      facebookLogin: acess_token => {
        dispatch(userActions.facebookLogin(acess_token))
+     },
+     usernameLogin: (email, password) => {
+       dispatch(userActions.usernameLogin(email, password))
      }
-  }
-} 
+  };
+};
 
 export default connect(null, mapDispatchToProps)(Container);
