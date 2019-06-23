@@ -5,12 +5,14 @@ import "./styles.module.scss";
 import Footer from "components/Footer";
 import Auth from "components/Auth";
 import Navigation from "components/Navigation";
+import Feed from "components/Feed";
 
 
 const App = props => [
   //Nav,
   props.isLoggedIn ? <Navigation key={1}/> : null,
-  props.isLoggedIn ? <PrivateRoutes key={2}/> : <PublicRoute key={2}/>, <Footer key={3}/>
+  props.isLoggedIn ? <PrivateRoutes key={2}/> : <PublicRoute key={2}/>,
+  <Footer key={3}/>
 ];
 
 App.propTypes = {
@@ -19,15 +21,15 @@ App.propTypes = {
 
 const PrivateRoutes = props => (
   <Switch>
-    <Route exact path="/" render={() => "feed"}></Route>
-    <Route exact path="/explore" render={() => "explore"}></Route>
+    <Route key="1" exact path="/" component={Feed}></Route>
+    <Route key="2" exact path="/explore" render={() => "explore"}></Route>
   </Switch>
 )
 
 const PublicRoute = props => (
   <Switch>
-    <Route exact path="/" component={Auth} />
-    <Route exact path="/forgot" render={() => "password"} />
+    <Route path="/" component={Auth} />
+    <Route path="/recover" render={() => "recover password"} />
   </Switch>
 )
 
