@@ -20,7 +20,7 @@ const Navigation = (props, context) => (
         <input 
           type="text"
           placeholder={context.t("Search")}
-          classNmae={styles.searchInput}/>
+          className={styles.searchInput}/>
       </div>
       <div className={styles.column}>
         <div className={styles.navIcon}>

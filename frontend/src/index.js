@@ -8,20 +8,17 @@ import App from 'components/App';
 import { translation } from "translation";
 
 
-
-console.log('### store.getState()')
-console.log(store.getState());
-
-console.log("### store.dispatch({type:'shit'})")
-store.dispatch({type:"Shit"});
+console.log('### store.getState()', store.getState())
+// console.log("### store.dispatch({type:'shit'})")
+// store.dispatch({type:"Shit"});
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <I18n translations={translation} initialLang="en" fallbackLang="en">
+    <I18n translations={translation} initialLang="en" fallbackLang="en">
+      <ConnectedRouter history={history}>
         <App />
-      </I18n>
-    </ConnectedRouter>
+      </ConnectedRouter>
+    </I18n>
   </Provider>,
   document.getElementById('root')
 );
