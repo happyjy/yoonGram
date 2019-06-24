@@ -38,7 +38,8 @@ class Container extends Component {
     // console.log("### LoginForm container > LoginForm > event.target.value: ", event.target.value);
   }
   _handleSubmit = event => {
-    console.log("### submit btn > this.state value : ", this.state)
+    console.log("### submit btn > this.state value : ", this.state);
+    console.log("### submit btn > this.props value : ", this.props);
     const { usernameLogin } = this.props;
     const { username, password } = this.state;
     event.preventDefault();
