@@ -12,17 +12,24 @@
 
 // ---
 // imports
+import { actionCreators as userActions } from "redux/modules/user";
+
 // actions
 // action creators
 function getFeed() {
-  return (dspatch, getState) => {
+  return (dispatch, getState) => {
     const { user: { token } } = getState();
     fetch("/images/", {
       headers: {
         Authorization: `JWT ${token}`
       }
     })
-    .then(response => response.json())
+    .then(response => {
+      if(response.status === 401){
+        dispatch(userActions.logout());
+      }
+      return response.json();
+    })
     .then(json => console.log(json))
   }
 }
@@ -39,11 +46,11 @@ function reducer(state = initialState, action) {
 }
 // reducer funtions
 // exports
-const actionsCreators = {
+const actionCreators = {
   getFeed
 };
 
-export { actionsCreators };
+export { actionCreators };
 
 // defulat reducer export
 export default reducer;

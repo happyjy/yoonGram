@@ -342,7 +342,7 @@ class ImageDetail(APIView):
     image = self.find_onw_image(image_id, user)
 
     if image is None:
-      return Response(status=status.HTTP_401_UNAUTHORIZED)
+      return Response(status=status.HTTP_400_BAD_REQUEST)
 
     # jyoon study - partial=True 하는 이유는 뭘까요? 
     # InputImageSerializer에 사용하는 model은 모두 필수다.
@@ -365,7 +365,7 @@ class ImageDetail(APIView):
     image = self.find_own_image(image_id, user)
 
     if image is None:
-      return Response(status=status.HTTP_401_UNAUTHORIZED)
+      return Response(status=status.HTTP_400_BAD_REQUEST)
 
     image.delete()
 
