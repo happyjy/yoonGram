@@ -5,7 +5,7 @@ import Feed from "./presenter";
 class Container extends Component{
   //loading value를 통해서 Loading Component를 생성한다. 
   state = {
-    loading:true
+    loading: true
   };
 
   static propTypes = {
@@ -32,6 +32,8 @@ class Container extends Component{
   };
 
   render() {
+    console.log("### Feed > continaer > this.props(component property):", this.props)
+    console.log("### Feed > continaer > this.state(component 상태): ", this.state)
     const { feed } = this.props;
     return <Feed {...this.state} feed={feed} />
   };
