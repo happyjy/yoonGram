@@ -48,6 +48,12 @@ urlpatterns = [
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )
 
+# urlpatterns += [
+#   path("", views.ReactAppView.as_view()),
+#     # url(r'^', views.ReactAppView.as_view()),
+# ]
+
+
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
     # these url in browser to see how these error pages look like.
