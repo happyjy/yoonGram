@@ -44,8 +44,8 @@ class Images(APIView):
     sorted_list = sorted(image_list, key=lambda img: img.created_at , reverse=True)
     print(sorted_list)
 
-    serializer = serializers.ImageSerializer(sorted_list, many=True)
-    
+    serializer = serializers.ImageSerializer(sorted_list, many=True, context={'request': request})
+
     # return Response(status=200)
     return Response(serializer.data)
 
@@ -104,7 +104,7 @@ class ListAllLikes(APIView):
     
 
 # 1-48
-class UnLIkeImage(APIView):
+class UnLikeImage(APIView):
   def delete(self, request, image_id, format=None):
     user = request.user
     try:
@@ -125,7 +125,7 @@ class UnLIkeImage(APIView):
 
 
 # 1-41/step0. create the url and the view
-class LIkeImage(APIView):
+class LikeImage(APIView):
   def get(self, request, image_id, format=None):
     """ image에 좋아요를 누른 사용자 찾는 api"""
     likes = models.Like.objects.filter(image__id=image_id)
@@ -145,7 +145,7 @@ class LIkeImage(APIView):
 
   def post(self, request, image_id, format=None):
     
-    print('### LIkeImage APIView')
+    print('### LikeImage APIView')
     print(image_id)
     print(request)
 
@@ -332,7 +332,7 @@ class ImageDetail(APIView):
     except models.Image.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
-    serializer = serializers.ImageSerializer(image)
+    serializer = serializers.ImageSerializer(image, context={'request': request})
 
     return Response(data=serializer.data, status=status.HTTP_200_OK)
   

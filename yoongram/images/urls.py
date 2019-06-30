@@ -10,8 +10,8 @@ urlpatterns = [
     path("", view=views.Images.as_view(), name="images"),
     path("<int:image_id>/", view=views.ImageDetail.as_view(), name="imageDetail"),
     # 1-41/step1. take the id from the url
-    path("<int:image_id>/likes/", view=views.LIkeImage.as_view(), name="like_image"),
-    path("<int:image_id>/unlikes/", view=views.UnLIkeImage.as_view(), name="unlike_image"),
+    path("<int:image_id>/likes/", view=views.LikeImage.as_view(), name="like_image"),
+    path("<int:image_id>/unlikes/", view=views.UnLikeImage.as_view(), name="unlike_image"),
     path("<int:image_id>/comment/", view=views.CommentImage.as_view(), name="comment_image"),
     path("<int:image_id>/comment/<int:comment_id>", view=views.ModerateComments.as_view(), name="moderateComments_image"),
     path("comment/<int:comment_id>", view=views.Comment.as_view(), name="comment"),

@@ -66,10 +66,10 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
 
   #jyoonStudy: nested Serailizer
   comments = CommentSerializer(many=True)
-  likes = LikeSerializer(many=True)
+  # likes = LikeSerializer(many=True)
   creator = FeedUserSerializer()
   tags = TagListSerializerField()
-
+  is_liked = serializers.SerializerMethodField()
   class Meta:
     model = models.Image
     # fields = '__all__'
@@ -84,8 +84,19 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
       'creator',
       'tags',
       'created_at',
-      'natural_time'
+      'natural_time',
+      'is_liked'
     )
+
+  def get_is_liked(self, obj):
+    if 'request' in self.context:
+      request = self.context['request']
+      try:
+        models.Like.objects.get(creator__id=request.user.id, image__id=obj.id)
+        return True
+      except models.Like.DoesNotExist:
+        return False
+    return False
 
 class InputImageSerializer(serializers.ModelSerializer):
   class Meta:

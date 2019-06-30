@@ -30,10 +30,11 @@ function getFeed() {
       if(response.status === 401){
         dispatch(userActions.logout());
       }
+      console.log("### getFeed() > response: ", response);
       return response.json();
     })
     .then(json => {
-      console.log(json)
+      console.log("### getFeed() > json: ", json);
       dispatch(setFeed(json));
     })
   }
