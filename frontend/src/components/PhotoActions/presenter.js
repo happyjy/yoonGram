@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Ionicon from "react-ionicons";
-import styls from "./styles.module.scss";
+// import styles from "./styles.module.scss";
 
 const PhotoActions = (props, context) => (
   <div>

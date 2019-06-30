@@ -14,7 +14,6 @@ class SmallImageserializer(serializers.ModelSerializer):
       'file',
     )
 
-
 class CountImageSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.Image
@@ -84,7 +83,8 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
       'like_count',
       'creator',
       'tags',
-      'created_at'
+      'created_at',
+      'natural_time'
     )
 
 class InputImageSerializer(serializers.ModelSerializer):
