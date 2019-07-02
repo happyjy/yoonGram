@@ -112,16 +112,19 @@ class UnLikeImage(APIView):
     except models.Image.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
+
     try:
-      preExisiting_like = models.Like.objects.get(
-        creator=user,
-        image=found_image
-      )
-      preExisiting_like.delete()
-      return Response(status=status.HTTP_304_NOT_MODIFIED)
+        preexisiting_like = models.Like.objects.get(
+            creator=user,
+            image__id=image_id
+        )
+        preexisiting_like.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     except models.Like.DoesNotExist:
-      return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_304_NOT_MODIFIED)
 
 
 # 1-41/step0. create the url and the view
