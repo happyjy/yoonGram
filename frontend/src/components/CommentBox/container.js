@@ -5,10 +5,13 @@ class Container extends Component {
   state = {
     comment: ""
   };
+  
   render() {
+    console.log("### : ", this.state, this.props);
     return (
       <CommentBox
         {...this.state}
+        {...this.props}
         handleInputChange={this._handleInputChange}
         handleSubmit={this._handleSubmit}
         handleKeyPress={this._handleKeyPress}
@@ -25,9 +28,12 @@ class Container extends Component {
     console.log(this.state);
   };
   _handleKeyPress = event => {
+    const { submitComment } = this.props;
+    const { comment } = this.state;
     const { key } = event;
     if (key === "Enter") {
       event.preventDefault();
+      submitComment(comment);
     }
   };
 }
