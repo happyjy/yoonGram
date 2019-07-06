@@ -43,15 +43,18 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     # django에서 react 작업한것으로 front를 호출하는 장소 
     # 아래 주석 제거하고 http://127.0.0.1:8000/admin/ 접속하면 장고 어드민 화면 확인 가능
-    re_path("", views.ReactAppView.as_view()),
+    # 
+    # 아래 코드를 사용하면 react작업한곳으로 front를 호출하기는 하지만 사진을 찾지 못하고 있더라
+    # 아래 urlpatterns 와 같이 설정해줘야 react, image 사진이 모두 같이 보이게 된다.
+    # re_path("", views.ReactAppView.as_view()),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )
 
-# urlpatterns += [
-#   path("", views.ReactAppView.as_view()),
-#     # url(r'^', views.ReactAppView.as_view()),
-# ]
+urlpatterns += [
+  path("", views.ReactAppView.as_view()),
+    # url(r'^', views.ReactAppView.as_view()),
+]
 
 
 if settings.DEBUG:
