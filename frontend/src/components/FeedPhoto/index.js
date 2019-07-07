@@ -7,7 +7,7 @@ const mapsDispatchToProps = (dispatch, ownProps) => {
     getPhotoLikes: () => {
       dispatch(userActions.getPhotoLikes(ownProps.id));
     }
-  }
+  };
 }
 
 export default connect(null, mapsDispatchToProps)(Container);

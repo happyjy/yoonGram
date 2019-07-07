@@ -7,7 +7,7 @@ class Container extends Component {
   };
   
   render() {
-    console.log("### : ", this.state, this.props);
+    // console.log("### CommentBox > container: ", this.state, this.props);
     return (
       <CommentBox
         {...this.state}

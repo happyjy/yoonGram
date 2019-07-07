@@ -14,6 +14,7 @@ class Container extends Component{
 
   componentDidMount() {
     const { getFeed } = this.props;
+    // console.log("### Feed > container.js > props: ", this.props);
     if (!this.props.feed) {
       getFeed();
     } else {
@@ -22,8 +23,9 @@ class Container extends Component{
       });
     }
   }
+
   componentWillReceiveProps = (nextProps) => {
-    // console.log("### Feed/container.js >this.props, nextProps : " ,this.props, nextProps);
+    //console.log("### Feed > container.js > componentWillReceiveProps > this.props, nextProps : " ,this.props, nextProps);
     if (nextProps.feed) {
       this.setState({
         loading: false
@@ -32,8 +34,8 @@ class Container extends Component{
   };
 
   render() {
-    // console.log("### Feed > continaer > this.props(component property):", this.props)
-    // console.log("### Feed > continaer > this.state(component 상태): ", this.state)
+    // console.log("### Feed > continaer.js > this.props(component property):", this.props)
+    // console.log("### Feed > continaer.js > this.state(component 상태): ", this.state)
     const { feed } = this.props;
     return <Feed {...this.state} feed={feed} />
   };

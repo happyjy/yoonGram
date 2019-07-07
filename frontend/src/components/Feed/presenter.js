@@ -9,6 +9,7 @@ const Feed = props => {
   if(props.loading){
     return <LoadingFeed />
   } else if (props.feed) {
+    // console.log("### Feed > presenter.js > props", props);
     return <RenderFeed {...props} />
   }
 }
