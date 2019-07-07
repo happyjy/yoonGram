@@ -4,11 +4,13 @@
  *   imports
  *   actions
  *   actions creators: 리덕스 state를 바꿀때 사용
+ *
  *   API action: api호출시 사용
-
+ *
  *   initial state
  *   reducer
  *   reducer function
+ * 
  *   exports
  *   reducer export
  * 
@@ -19,6 +21,7 @@
 // actions
 const SAVE_TOKEN = "SAVE_TOKEN";
 const LOGOUT = "LOGOUT";
+const SET_USER_LIST = "SET_USER_LIST";
 
 // actions creators
 function saveToken(token){
@@ -32,6 +35,13 @@ function logout() {
   return {
     type: LOGOUT
   };
+}
+
+function setUserList(userList) {
+  return {
+    type: SET_USER_LIST,
+    userList
+  }
 }
 
 // api action
@@ -108,6 +118,25 @@ function createAccount(username, password, email, name){
   };
 }
 
+function getPhotoLikes(photoId) {
+  return (dispatch, getState) => {
+    const { user: {token} } = getState();
+    fetch(`/images/${photoId}/likes/`, {
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+    .then(response => {
+      if (response.status === 401){
+        dispatch(logout())
+      }
+    })
+    .then(json => {
+      dispatch(setUserList(json));
+    });
+  }
+}
+
 // initial state
 const initialState = {
   isLoggedIn: localStorage.getItem("jwt") ? true : false,
@@ -121,6 +150,8 @@ function reducer( state = initialState, action){
       return applySetToken(state, action);
     case LOGOUT:
       return applyLogout(state, action);
+    case SET_USER_LIST:
+      return applySetUserList(state, action);
     default: 
       return state;
   }
@@ -144,12 +175,22 @@ function applyLogout(state, action) {
   };
 }
 
+function applySetUserList(state, action) {
+  const { userList } = action;
+  console.log("### applySetUserList > state, userList value: ", state, userList);
+  return {
+    ...state,
+    userList
+  }
+}
+
 // exports
 const actionCreators = {
   facebookLogin, 
   usernameLogin,
   createAccount,
-  logout
+  logout,
+  getPhotoLikes
 }
 export { actionCreators };
 

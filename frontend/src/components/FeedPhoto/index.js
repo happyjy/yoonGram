@@ -1,10 +1,12 @@
 import { connect } from "react-redux";
 import Container from "./container";
-// import { actionCreators as xxx} from "redux/modules/xxxx"
+import { actionCreators as userActions } from "redux/modules/user";
 
 const mapsDispatchToProps = (dispatch, ownProps) => {
   return {
-
+    getPhotoLikes: () => {
+      dispatch(userActions.getPhotoLikes(ownProps.id));
+    }
   }
 }
 
