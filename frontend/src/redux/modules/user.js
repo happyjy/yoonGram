@@ -120,21 +120,22 @@ function createAccount(username, password, email, name){
 
 function getPhotoLikes(photoId) {
   return (dispatch, getState) => {
-    const { user: {token} } = getState();
+    const { user: { token } } = getState();
     fetch(`/images/${photoId}/likes/`, {
       headers: {
         Authorization: `JWT ${token}`
       }
     })
-    .then(response => {
-      if (response.status === 401){
-        dispatch(logout())
-      }
-    })
-    .then(json => {
-      dispatch(setUserList(json));
-    });
-  }
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setUserList(json));
+      });
+  };
 }
 
 // initial state
@@ -177,7 +178,7 @@ function applyLogout(state, action) {
 
 function applySetUserList(state, action) {
   const { userList } = action;
-  console.log("### applySetUserList > state, userList value: ", state, userList);
+  console.log("### user.js > applySetUserList > state, action value: ", state, action);
   return {
     ...state,
     userList

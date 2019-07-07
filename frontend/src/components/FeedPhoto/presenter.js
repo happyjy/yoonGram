@@ -72,7 +72,14 @@ FeedPhoto.propType = {
   id: PropTypes.number.isRequired,
   seeingLikes: PropTypes.bool.isRequired,
   closeLikes: PropTypes.func.isRequired,
-  openLikes: PropTypes.func.isRequired
+  openLikes: PropTypes.func.isRequired,
+  likes: PropTypes.arrayOf(
+    PropTypes.shape({
+      profile_image: PropTypes.string,
+      username: PropTypes.string,
+      name: PropTypes.string
+    }).isRequired
+  )
 }
 
 FeedPhoto.contextTypes = {
