@@ -8,7 +8,7 @@ from yoongram.notifications import views as notifications_views
 class ExploreUsers(APIView):
   def get(self, request, format=None):
     last_five = models.User.objects.all()[:5]
-    serializer = serializers.ListUsersSerializer(last_five, many=True)
+    serializer = serializers.ListUsersSerializer(last_five, many=True, context={"request": request})
 
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -125,7 +125,7 @@ class UserFollowerUser(APIView):
       return Response(status=status.HTTP_404_NOT_FOUND)
 
     user_followers = found_user.followers.all()
-    serializer = serializers.ListUsersSerializer(user_followers, many=True)
+    serializer = serializers.ListUsersSerializer(user_followers, many=True, context={"request": request})
 
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -139,7 +139,7 @@ class UserFollowingUser(APIView):
       return Response(status=status.HTTP_404_NOT_FOUND)
 
     user_following = found_user.following.all()
-    serializer = serializers.ListUsersSerializer(user_following, many=True)
+    serializer = serializers.ListUsersSerializer(user_following, many=True, context={"request": request})
 
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -167,7 +167,7 @@ class Search(APIView):
     print(username)
     if username is not None:
       users = models.User.objects.filter(username__istartswith=username)
-      serializer = serializers.ListUsersSerializer(users, many=True)
+      serializer = serializers.ListUsersSerializer(users, many=True, context={"request": request})
       return Response(data=serializer.data, status=status.HTTP_200_OK)
     else:
       return Response(status=status.HTTP_400_BAD_REQUEST)

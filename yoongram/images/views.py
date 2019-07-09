@@ -141,7 +141,7 @@ class LikeImage(APIView):
     # https://docs.djangoproject.com/en/2.1/ref/models/querysets/#in
     # User모델에 like_creators_ids(array type)value가 있는지 검색하는거에요~
     users = user_models.User.objects.filter(id__in=like_creators_ids)
-    serializer = user_serializers.ListUsersSerializer(users, many=True)
+    serializer = user_serializers.ListUsersSerializer(users, many=True, context={"request": request})
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     print(users)
