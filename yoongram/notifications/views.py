@@ -1,3 +1,6 @@
+import requests
+import json
+import time
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,16 +19,46 @@ class Notifications(APIView):
 
 
 # #1-60
-def create_notification(creator, to, type, image=None, comment=None):
-  print('### This is create_notifications')
-  print(creator, to, type, image, comment)
-  
-  notifications = models.Notification.objects.create(
-    creator=creator,
-    to=to,
-    notification_type=type,
-    image=image,
-    comment=comment
-  )
+def create_notification(creator, to, notification_type, image=None, comment=None):
 
-  notifications.save()
+    notification = models.Notification.objects.create(
+        creator=creator,
+        to=to,
+        notification_type=notification_type,
+        image=image,
+        comment=comment
+    )
+
+    time.sleep(10)
+
+    notification.save()
+
+    action = ''
+
+    if notification_type == 'like':
+
+        action = 'liked your photo'
+    
+    elif notification_type == 'comment':
+
+        action = 'commented on your photo'
+    
+    elif notification_type == 'follow':
+
+        action = 'followed you'
+        
+
+    url = "https://exp.host/--/api/v2/push/send"
+    data = {
+        "to": creator.push_token,
+        "sound": "default",
+        "body": f'Somebody {action}',
+        "badge": 1
+    }
+    headers = {'Content-type': 'application/json',
+               'Accept': 'application/json', 'Accept-Encoding': 'gzip, deflate'}
+
+    request = requests.post(url, data=json.dumps(data), headers=headers)
+
+    print("############################# request.json()")
+    print(request.json())
