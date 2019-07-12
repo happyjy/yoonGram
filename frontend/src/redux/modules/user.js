@@ -1,3 +1,5 @@
+import mapAgeCleaner from "map-age-cleaner";
+
 /**
  *   # redux 
  * 
@@ -22,13 +24,15 @@
 const SAVE_TOKEN = "SAVE_TOKEN";
 const LOGOUT = "LOGOUT";
 const SET_USER_LIST = "SET_USER_LIST";
+const FOLLOW_USER = "FOLLOW_USER";
+const UNFOLLOW_USER = "UNFOLLOW_USER";
 
 // actions creators
 function saveToken(token){
   return{
     type: SAVE_TOKEN,
     token
-  }
+  };
 }
 
 function logout() {
@@ -41,6 +45,20 @@ function setUserList(userList) {
   return {
     type: SET_USER_LIST,
     userList
+  };
+}
+
+function setFollowUser(userId) {
+  return {
+    type: FOLLOW_USER,
+    userId
+  }
+}
+
+function setUnfollowUser(userId) {
+  return {
+    type: UNFOLLOW_USER,
+    userId
   }
 }
 
@@ -138,6 +156,18 @@ function getPhotoLikes(photoId) {
   };
 }
 
+function followUser(userId){
+  return (dispatch, getState) => {
+    dispatch(setFollowUser(userId));
+  }
+}
+
+function unfollowUser(userId){
+  return (dispatch, getState) => {
+    dispatch(setUnfollowUser(userId));
+  }
+}
+
 // initial state
 const initialState = {
   isLoggedIn: localStorage.getItem("jwt") ? true : false,
@@ -153,6 +183,10 @@ function reducer( state = initialState, action){
       return applyLogout(state, action);
     case SET_USER_LIST:
       return applySetUserList(state, action);
+    case FOLLOW_USER:
+      return applyFollowUser(state, action);
+    case UNFOLLOW_USER:
+      return applyUnfollowUser(state, action);
     default: 
       return state;
   }
@@ -185,13 +219,39 @@ function applySetUserList(state, action) {
   }
 }
 
+function applyFollowUser(state, action) {
+  const { userId } = action;
+  const { userList } = state;
+  const updatedUserList = userList.map(user => {
+    if (user.id === userId) {
+      return { ...user, following: true };
+    }
+    return user;
+  });
+  return { ...state, userList: updatedUserList };
+}
+
+function applyUnfollowUser(state, action) {
+  const { userId } = action;
+  const { userList } = state;
+  const updatedUserList = userList.map(user => {
+    if (user.id === userId) {
+      return { ...user, following: false };
+    }
+    return user;
+  });
+  return { ...state, userList: updatedUserList };
+}
+
 // exports
 const actionCreators = {
   facebookLogin, 
   usernameLogin,
   createAccount,
   logout,
-  getPhotoLikes
+  getPhotoLikes,
+  followUser,
+  unfollowUser,
 }
 export { actionCreators };
 

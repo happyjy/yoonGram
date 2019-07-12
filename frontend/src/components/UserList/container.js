@@ -6,14 +6,14 @@ class Container extends Component {
     loading: true
   };
   componentDidMount() {
-    console.log("### UserList > container.js > componentDidMount > nextProps : ");
+    // console.log("### UserList > container.js > componentDidMount > nextProps : ");
     const { userList } = this.props;
     if (userList) {
       this.setState({ loading: false });
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log("### UserList > container.js > componentWillReceiveProps > nextProps : ", nextProps);
+    // console.log("### UserList > container.js > componentWillReceiveProps > nextProps : ", nextProps);
     if (nextProps.userList) {
       this.setState({
         loading: false

@@ -22,9 +22,8 @@ const UserList = props => (
   </div>
 );
 
-
 const RenderUsers = props => {
-  // console.log("### List: ", List);
+  console.log("### List: ", props);
   return props.list.map(user => <UserRow user={user} key={user.id} />);
 }
 
