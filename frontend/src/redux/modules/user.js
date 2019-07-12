@@ -194,6 +194,24 @@ function unfollowUser(userId){
   };
 }
 
+function getExplore(userId){
+  return (dispatch, getState) => {
+    const { user: { token } } = getState();
+    fetch(`/users/explore/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`,
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(logout());
+      }
+      return response.json();
+    })
+    .then(json => dispatch(setUserList(json)))
+  };
+}
+
 // initial state
 const initialState = {
   isLoggedIn: localStorage.getItem("jwt") ? true : false,
@@ -269,7 +287,7 @@ function applyUnfollowUser(state, action) {
   return { ...state, userList: updatedUserList };
 }
 
-// exports
+// exports (api actions)
 const actionCreators = {
   facebookLogin, 
   usernameLogin,
@@ -278,6 +296,7 @@ const actionCreators = {
   getPhotoLikes,
   followUser,
   unfollowUser,
+  getExplore
 }
 export { actionCreators };
 
