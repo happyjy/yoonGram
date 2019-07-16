@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Navigation from "./presenter";
-
 class Container extends Component {
   state = {
     term: ""
@@ -20,7 +19,7 @@ class Container extends Component {
     );
   }
   _onInputChange = event => {
-    const { target: { value }} = event;
+    const { target: { value } } = event;
     this.setState({
       term: value
     });
@@ -30,8 +29,8 @@ class Container extends Component {
     const { term } = this.state;
     event.preventDefault();
     goToSearch(term);
-    this.setState({ 
-      term: "" 
+    this.setState({
+      term: ""
     });
     console.log("### Navigation > container > _onSubmit : ", term);
   };

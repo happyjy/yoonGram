@@ -12,7 +12,7 @@ const Navigation = (props, context) => (
           <img
             src={require("images/logo.png")}
             className={styles.logo}
-            alt={context.t("logo")}
+            alt={context.t("Logo")}
           />
         </Link>
       </div>
