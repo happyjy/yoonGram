@@ -10,11 +10,17 @@ const Explore = props => {
   }
 };
 
-const LodingExplore = props => {
+const LoadingExplore = props => {
   <div className={styles.search}>
-    <Loding />
+    <Looding />
   </div>
 };
+
+const Looding = props => {
+  <div>
+    
+  </div>
+}
 
 Explore.propTypes = {
   loading: PropTypes.bool.isRequired,

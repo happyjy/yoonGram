@@ -1,4 +1,3 @@
-    
 import { connect } from "react-redux";
 import Container from "./container";
 import { push } from "react-router-redux";
