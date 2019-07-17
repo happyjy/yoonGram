@@ -124,17 +124,19 @@ function commentPhoto(photoId, message) {
       body: JSON.stringify({
         message
       })
-    }).then(response => {
-      if (response.status === 401) {
-        dispatch(userActions.logout());
-      }
-      return response.json();
     })
-    .then(json => {
-      if(json.message){
-        dispatch(addComment(photoId, json));
-      }
-    });
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(userActions.logout());
+        }
+        console.log("### photos > commentPhoto > response.json(): ", response);
+        return response.json();
+      })
+      .then(json => {
+        if (json.message) {
+          dispatch(addComment(photoId, json));
+        }
+      });
   };
 }
 
@@ -221,8 +223,3 @@ export { actionCreators };
 
 // defulat reducer export
 export default reducer;
-
-// {
-//   type:'LIKE_PHOTO',
-//   photoId: 11
-// }

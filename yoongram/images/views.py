@@ -201,11 +201,13 @@ class CommentImage(APIView):
   def post(self, request, image_id, format=None):
     print('### CommentImage APIView')
     print(request.data) #[local host address]/images/6/comment/ 페이지에서 입력한 메세지의 내용
+    print(request.user)
 
     user = request.user
 
     try: 
       found_image = models.Image.objects.get(id=image_id)
+      print(found_image)
     except models.Image.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
