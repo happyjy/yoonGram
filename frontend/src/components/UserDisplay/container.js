@@ -1,6 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
 import UserRow from "./presenter";
 
-const Container = props => <UserRow {...props} />;
+// console.log("### UserDisplay > container.js: ", this);
+// const Container = props => <UserRow {...props} />;
+
+class Container extends Component {
+
+  render() {
+    // const { userList, imageList } = this.props;
+    console.log("### UserDisplay: ", this.props.user);
+    return (
+      <UserRow {...this.props} />
+    );
+  };
+}
+
 
 export default Container;
