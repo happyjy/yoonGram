@@ -6,7 +6,7 @@ import styles from "./styles.module.scss";
 const PhotoActions = (props, context) => (
   <div className={styles.actions}>
     <div className={styles.icons}>
-      <span className={styles.icon} onClick={props.handleheartClick}>
+      <span className={styles.icon} onClick={props.handleHeartClick}>
         {props.isLiked ? (
           <Ionicon icon="ios-heart" fontSize="28px" color="#EB4B59" />
         ) : (
@@ -28,7 +28,7 @@ PhotoActions.propTypes = {
   number: PropTypes.number.isRequired,
   isLiked: PropTypes.bool.isRequired,
   photoId: PropTypes.number.isRequired,
-  handleheartClick: PropTypes.func.isRequired,
+  handleHeartClick: PropTypes.func.isRequired,
   openLikes: PropTypes.func.isRequired
 }
 

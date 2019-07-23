@@ -5,8 +5,9 @@ import { actionCreators as photoActions } from "redux/modules/photos";
 const mapDispatchToProps = (dispatch, ownProps) => {
   // console.log("###ownProps: ",ownProps);
   return {
-    handleheartClick: ()=> {
+    handleHeartClick: ()=> {
       if (ownProps.isLiked) {
+        debugger;
         dispatch(photoActions.unlikePhoto(ownProps.photoId));
       } else {
         dispatch(photoActions.likePhoto(ownProps.photoId));
