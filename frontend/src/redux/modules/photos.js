@@ -68,6 +68,7 @@ function getFeed() {
     })
     .then(json => {
       // console.log("### getFeed() > json: ", json);
+      debugger;
       dispatch(setFeed(json));
     })
   }
@@ -75,6 +76,7 @@ function getFeed() {
 
 function likePhoto(photoId) {
   return (dispatch, getState) => {
+    debugger;
     dispatch(doLikePhoto(photoId));
     const { user: { token } } = getState();
     fetch(`/images/${photoId}/likes/`, {
@@ -94,6 +96,7 @@ function likePhoto(photoId) {
 
 function unlikePhoto(photoId) {
   return (dispatch, getState) => {
+    debugger;
     dispatch(doUnlikePhoto(photoId));
     const { user: { token } } = getState();
     fetch(`/images/${photoId}/unlikes/`, {
@@ -102,10 +105,10 @@ function unlikePhoto(photoId) {
         Authorization: `JWT ${token}`
       }
     }).then(response => {
+      debugger;
       if (response.status === 401) {
         dispatch(userActions.logout());
       } else if (!response.ok) {
-        debugger;
         dispatch(doLikePhoto(photoId));
       }
     });
@@ -162,6 +165,7 @@ function reducer(state = initialState, action) {
 
 // reducer funtions
 function applySetFeed(state, action) {
+  debugger;
   const { feed } = action;
   return {
     ...state,

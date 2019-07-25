@@ -8,7 +8,7 @@ class Container extends Component {
 
   render() {
     // const { userList, imageList } = this.props;
-    console.log("### UserDisplay: ", this.props.user);
+    console.log("### UserDisplay > container.js: ", this.props.user);
     return (
       <UserRow {...this.props} />
     );

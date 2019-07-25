@@ -1,7 +1,7 @@
 /**
- *   # redux 
- * 
- *   imports
+*   # redux 
+* 
+*   imports
  *   actions
  *   actions creators: 리덕스 state를 바꿀때 사용
  *
@@ -164,6 +164,7 @@ function getPhotoLikes(photoId) {
 }
 
 function followUser(userId){
+  // debugger;
   return (dispatch, getState) => {
     dispatch(setFollowUser(userId));
     const { user: { token } } = getState();
@@ -184,6 +185,7 @@ function followUser(userId){
 }
 
 function unfollowUser(userId){
+  // debugger;
   return (dispatch, getState) => {
     dispatch(setUnfollowUser(userId));
     const { user: { token } } = getState();
