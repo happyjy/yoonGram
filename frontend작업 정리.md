@@ -8,6 +8,7 @@
 * [작성대기]경로 세팅 하는 방법 (../ 없이)
 * [작성완료][조회] RenderFeed를 어떻게 rendering 하는 것일까? 
 * [작성완료][create] 댓글 달기 과정
+* [작성완료] component구조 
 ---
 
 
@@ -86,3 +87,19 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
       * 이 Component는 보여주는 역할 밖에 없음으로 index.js에 rendering하는 부분만 있다.
 
 
+
+# component구조 
+* app.js  
+: router (Explore, Search, Feed)  
+: <u>react-router-dom lib의 'Route, Switch' 사용</u>
+  * Explore
+  * Search
+  * Feed
+      * Loading
+      * FeedPhoto
+          * PhotoActions
+          * photoComments
+          * TimeStamp
+          * CommentBox
+          * UserList : likes 누르면 나오는 팝업
+              * userDisplay
