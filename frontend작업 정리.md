@@ -1,20 +1,39 @@
-
-
 # 정리 방법
 1. crud 기준으로 정리
 2. react lib 기준으로 정리
 ---
 * [작성대기]routing에 대해서 
 * [작성대기]경로 세팅 하는 방법 (../ 없이)
+* [작성완료]component구조 
 * [작성완료][조회] RenderFeed를 어떻게 rendering 하는 것일까? 
 * [작성완료][create] 댓글 달기 과정
-* [작성완료] component구조 
+* [작성중][create, delete]like, unlike
+
+
+* [작성대기]mapsDispatchToProps 두번째 param(ownProps)에 대해서 
+  - 좋아요 세팅, 해제 할때 PhotoActions > index.js에서 ownProps에 props가 다 담겨져 있다. 
+  - PhotoActions가 속한 component에서 세팅한 props가 ownProps로 사용할 수 있는 것인가?
 ---
 
 
+# component구조 
+* app.js  
+: router (Explore, Search, Feed)  
+: <u>react-router-dom lib의 'Route, Switch' 사용</u>
+  * Explore
+  * Search
+  * Feed
+      * Loading
+      * FeedPhoto
+          * PhotoActions
+          * photoComments
+          * TimeStamp
+          * CommentBox
+          * UserList : likes 누르면 나오는 팝업
+              * userDisplay
 
 
-# (조회)RenderFeed를 어떻게 rendering 하는 것일까? 
+# [조회]RenderFeed를 어떻게 rendering 하는 것일까? 
 * 로그인 후 App/presenter.js > Privateroutes component
   * privateRoutes는 Switch로 첫번째 Route는 Feed component 다. 
 
@@ -79,27 +98,45 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
   1. FeedPhoto component > index.js > mapDispatchToProps
   2. FeedPhoto component > container.js > render function > FeedPhoto component(in presentation)
   3. FeedPhoto component > present.js > FeedPhoto function
-      * Feed 화면에서 rendering 하는 component로 
-    comment부분을 업데이트 해야 함으로 'Photocomments component'를 re rendering 한다.
+      * Feed 화면에서 rendering 하는 component로  
+        comment부분을 업데이트 해야 함으로 'Photocomments component'를 re rendering 한다.
   
   * PhotoComments component 부분 
   1. PhotoComments component > index.js > PhotoComponent function > Comment function
       * 이 Component는 보여주는 역할 밖에 없음으로 index.js에 rendering하는 부분만 있다.
 
 
+---
+---
+# [create, delete]like, unlike
 
-# component구조 
-* app.js  
-: router (Explore, Search, Feed)  
-: <u>react-router-dom lib의 'Route, Switch' 사용</u>
-  * Explore
-  * Search
-  * Feed
-      * Loading
-      * FeedPhoto
-          * PhotoActions
-          * photoComments
-          * TimeStamp
-          * CommentBox
-          * UserList : likes 누르면 나오는 팝업
-              * userDisplay
+> heart 클릭으로 heart 제거시 
+
+* PhotoActions component 부분
+1. PhotoActions component > presenter.js > onClick에 
+    * container에서 전달한 props에 handleHearClick을 대입
+2. PhotoActions component > container.js > presenter에 
+    * presneter에서 생성한 component에 props 전달(index.js에서 onClick 동작하는 function을 props에 세팅)
+3. PhotoActions component > index.js > mapDispatchToprops에
+    * handleHeartClick funciton 생성
+    * redux인 actionsCreators(photo.js)에서 생성한 api를 container.js에서 props로 사용하기 위해서 handleHeartClick function의 첫번째 parameter(dispatch)에 대입해서 세팅
+
+* redux(photos.js)
+1. redux > photos.js > unlikePhoto function; api
+    * dispatch(doUnlikePhoto(photoId))를 통해서 먼저 front에서 이미지를 제거 
+    * fetch를 통해서 server 작업 
+    * then에서 작업이 정상 적으로 처리가 되지 않았다면 다시 doLikePhoto를 해준다.
+
+* Feed component 부분
+1. Feed component > index.js > mapStateToProps function
+2. Feed component > container.js > componentWillReceiveProps function
+3. Feed component > container.js > render function > feed component 
+4. Feed component > present.js > renderFeed function > FeedPhoto component
+  
+* PhotoActions component 부분 
+1. PhotoActions component > index.js > mapDispatchToProps
+2. PhotoActions component > container.js > render function > PhotoActions component(in presentation)
+3. PhotoActions component > present.js > PhotoActions function
+    * Feed 화면에서 rendering 하는 component로  
+      하트 부분을 업데이트 해야 함으로 'PhotoActions component'를 rerendering 한다.
+
