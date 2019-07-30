@@ -7,12 +7,20 @@
 * [작성완료]component구조 
 * [작성완료][조회] RenderFeed를 어떻게 rendering 하는 것일까? 
 * [작성완료][create] 댓글 달기 과정
-* [작성중][create, delete]like, unlike
+* [작성완료][create, delete]like, unlike
 
 
-* [작성대기]mapsDispatchToProps 두번째 param(ownProps)에 대해서 
+* [작성대기] index.js에서 mapDispatchToProps 두번째 param(ownProps)에 대해서 
   - 좋아요 세팅, 해제 할때 PhotoActions > index.js에서 ownProps에 props가 다 담겨져 있다. 
   - PhotoActions가 속한 component에서 세팅한 props가 ownProps로 사용할 수 있는 것인가?
+
+* [작성완료]아래 function에 대한 생각
+  - mapStateToProps
+  - componentWillReceiveProps
+
+* [작성완료]redux > reducer 첫번째 param에 대해서 
+* [작성완료]reducer function에 대해서 
+
 ---
 
 
@@ -88,9 +96,12 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
       * reducer funtions에서 server에서 가지고 온 data, props data를 가지고 data가공
       * <u>reduex의 reducer의 동작이 끝나면 state가 변화 했으므로 아래와 같이 변경된 component를 다시 rendering 합니다.</u>
   
+  * App component 부분
+  1. App component > index.js > <u>mapStateToProps function</u>
+
   * Feed component 부분
-  1. Feed component > index.js > mapStateToProps function
-  2. Feed component > container.js > componentWillReceiveProps function
+  1. Feed component > index.js > <u>mapStateToProps function</u>
+  2. Feed component > container.js > <u>componentWillReceiveProps function</u>
   3. Feed component > container.js > render function > feed component 
   4. Feed component > present.js > renderFeed function > FeedPhoto component
   
@@ -109,8 +120,8 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
 ---
 ---
 # [create, delete]like, unlike
-
-> heart 클릭으로 heart 제거시 
+> heart 클릭으로 빨간 heart 제거시  
+> like하는 과정은 unlike하는 과정과 같기때문에 제거하는 것으로 설명
 
 * PhotoActions component 부분
 1. PhotoActions component > presenter.js > onClick에 
@@ -127,9 +138,12 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
     * fetch를 통해서 server 작업 
     * then에서 작업이 정상 적으로 처리가 되지 않았다면 다시 doLikePhoto를 해준다.
 
+* App component 부분
+1. App component > index.js > <u>mapStateToProps function</u>
+
 * Feed component 부분
-1. Feed component > index.js > mapStateToProps function
-2. Feed component > container.js > componentWillReceiveProps function
+1. Feed component > index.js > <u>mapStateToProps function</u>
+2. Feed component > container.js > <u>componentWillReceiveProps function</u>
 3. Feed component > container.js > render function > feed component 
 4. Feed component > present.js > renderFeed function > FeedPhoto component
   
@@ -139,4 +153,27 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
 3. PhotoActions component > present.js > PhotoActions function
     * Feed 화면에서 rendering 하는 component로  
       하트 부분을 업데이트 해야 함으로 'PhotoActions component'를 rerendering 한다.
+
+---
+---
+
+* 아래 function에 대한 생각
+  > mapStateToProps(in index.js), componentWillReceiveProps(container.js)
+  
+  - 위 function은 component의 최상위 component로(router를 가지고 있는 component제외)
+  state를 가지고 있어 하위 component에게 state를 공유 할 수 있게 되었다.
+  - mapStateToProps에서 세팅하면 componentWillReceiveProps에서 this.props로 확인이 가능하다.
+
+---
+---
+# redux > reducer 첫번째 param에 대해서 
+  * redux > reducer 첫번째 param이 state로 기본으로 가지고 있다. 
+  이건 redux에서 관리하고 있는 state를 reducer 첫번째 param를 통해서 관리하고 있다.
+
+# reducer function에 대해서 
+  * redux > reducer에서 호출한 reducer function return값이 어디로 전달되는지 궁금하다
+  - 현재로서는 app.js > index.js state로 받게 된다.
+  - 그 다음부터는 그 하위 component로 전달되어 변하게 되는 component에 가서 변화를 rerendering한다.
+
+
 
