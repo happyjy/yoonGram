@@ -1,27 +1,33 @@
 # 정리 방법
-1. crud 기준으로 정리
+1. 구현(CRUD) 기준으로 정리
 2. react lib 기준으로 정리
+
+
 ---
+# 1. 구현(CRUD) 기준으로 정리
 * [작성대기]routing에 대해서 
 * [작성대기]경로 세팅 하는 방법 (../ 없이)
 * [작성완료]component구조 
-* [작성완료][조회] RenderFeed를 어떻게 rendering 하는 것일까? 
+* [작성완료][조회]RenderFeed를 어떻게 rendering 하는 것일까? 
 * [작성완료][create] 댓글 달기 과정
 * [작성완료][create, delete]like, unlike
-
-
-* [작성대기] index.js에서 mapDispatchToProps 두번째 param(ownProps)에 대해서 
-  - 좋아요 세팅, 해제 할때 PhotoActions > index.js에서 ownProps에 props가 다 담겨져 있다. 
-  - PhotoActions가 속한 component에서 세팅한 props가 ownProps로 사용할 수 있는 것인가?
+* [작성완료]index.js에서 mapDispatchToProps 두번째 param(ownProps)에 대해서
 
 * [작성완료]아래 function에 대한 생각
   - mapStateToProps
   - componentWillReceiveProps
 
+# 2. redux 관련 
 * [작성완료]redux > reducer 첫번째 param에 대해서 
-* [작성완료]reducer function에 대해서 
+* [작성완료]redux > reducer function에 대해서 
 
 ---
+
+# 3. react lib 기준으로 정리
+* [작성대기] component 생명 주기 분석해보기
+
+---
+
 
 
 # component구조 
@@ -79,12 +85,9 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
         1. [찾아보기]
             1. componentDidMount, componentWillRecievieProps의 life cycle 정리
 
----
----
-
 
 # [create] 댓글 달기 과정
-## enter 이후 동작 trace  
+> enter 이후 동작 trace  
 > component 구조를 잘 알고 있어야 파악하기 쉽다.
   * comment component > index.js > submitComment function
   
@@ -117,8 +120,6 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
       * 이 Component는 보여주는 역할 밖에 없음으로 index.js에 rendering하는 부분만 있다.
 
 
----
----
 # [create, delete]like, unlike
 > heart 클릭으로 빨간 heart 제거시  
 > like하는 과정은 unlike하는 과정과 같기때문에 제거하는 것으로 설명
@@ -154,12 +155,17 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
     * Feed 화면에서 rendering 하는 component로  
       하트 부분을 업데이트 해야 함으로 'PhotoActions component'를 rerendering 한다.
 
+
+# index.js에서 mapDispatchToProps 두번째 param(ownProps)에 대해서 
+  - 좋아요 세팅, 해제 할때 PhotoActions > index.js에서 ownProps에 props가 다 담겨져 있다. 
+  - 이때 'ownProps'의 값은 PhotoActions component에 property로 값을 세팅한 값이다. 
+  - 위 PhotoActions component에 property값을 세팅한 곳은 FeedPhoto > present.js 이다.
+
 ---
 ---
 
-* 아래 function에 대한 생각
-  > mapStateToProps(in index.js), componentWillReceiveProps(container.js)
-  
+# 아래 function에 대한 생각
+  > mapStateToProps(IN index.js), componentWillReceiveProps(IN container.js)
   - 위 function은 component의 최상위 component로(router를 가지고 있는 component제외)
   state를 가지고 있어 하위 component에게 state를 공유 할 수 있게 되었다.
   - mapStateToProps에서 세팅하면 componentWillReceiveProps에서 this.props로 확인이 가능하다.
@@ -172,8 +178,8 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
 
 # reducer function에 대해서 
   * redux > reducer에서 호출한 reducer function return값이 어디로 전달되는지 궁금하다
-  - 현재로서는 app.js > index.js state로 받게 된다.
-  - 그 다음부터는 그 하위 component로 전달되어 변하게 되는 component에 가서 변화를 rerendering한다.
+    - 현재로서는 app.js > index.js state로 받게 된다.
+    - 그 다음부터는 그 하위 component로 전달되어 변하게 되는 component에 가서 변화를 rerendering한다.
 
 
 
