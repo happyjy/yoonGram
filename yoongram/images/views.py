@@ -198,42 +198,25 @@ class LikeImage(APIView):
 
 
 class CommentImage(APIView):
+
   def post(self, request, image_id, format=None):
-    print('### CommentImage APIView')
-    print(request.data) #[local host address]/images/6/comment/ 페이지에서 입력한 메세지의 내용
-    print(request.user)
 
     user = request.user
 
-    try: 
+    try:
       found_image = models.Image.objects.get(id=image_id)
-      print(found_image)
     except models.Image.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
     serializer = serializers.CommentSerializer(data=request.data)
 
-    # 1-45 [#study] 댓글저장 시 font-end에서 받아 저장할 filed는 message가 유일!
-    # 그래서 font-end에서 넘어온 data가 json type filed중 message가 있는지 
-    # serializer를 통해 json type data를 python object data type으로 변경한 뒤  
-    # is_valid()로 확인한뒤 저장하는 로직 생성!
     if serializer.is_valid():
-      # print('### I am valid')
-      # 1-45 [#study] 저장 방식을 유의하자 !
-      # 저장할때 필요한 필드데이터를 준비한뒤 
-      # font-end에서 받아온 json type data를 serilaize하고 
-      # .save시 꽂아 준다!!!
       serializer.save(creator=user, image=found_image)
-      
-      # #1-60 Creating Follow, Comment and Like notification
       notifications_views.create_notification(
-        user, found_image.creator, 'comment', found_image, serializer.data['message'])
-
+          user, found_image.creator, 'comment', found_image, serializer.data['message'])
       return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     else:
-      return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQEST)
-
-    return Response(status=status.HTTP_201_CREATED)
+      return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class removeCommentPhoto(APIView):
   def delete(self, request, comment_id, format=None):

@@ -164,7 +164,7 @@ function getPhotoLikes(photoId) {
 }
 
 function followUser(userId){
-  // debugger;
+  //debugger;
   return (dispatch, getState) => {
     dispatch(setFollowUser(userId));
     const { user: { token } } = getState();
@@ -185,7 +185,7 @@ function followUser(userId){
 }
 
 function unfollowUser(userId){
-  // debugger;
+  //debugger;
   return (dispatch, getState) => {
     dispatch(setUnfollowUser(userId));
     const { user: { token } } = getState();
@@ -277,7 +277,7 @@ const initialState = {
 };
 
 // reducer
-function reducer( state = initialState, action){
+function reducer(state = initialState, action){
   switch (action.type){
     case SAVE_TOKEN:
       return applySetToken(state, action);

@@ -43,12 +43,12 @@ function doUnlikePhoto(photoId) {
   };
 }
 
-function addComment(photoId, comment){
+function addComment(photoId, comment) {
   return {
     type: ADD_COMMENT,
     photoId,
     comment
-  }
+  };
 }
 
 function removeComment(commentId, comment){
@@ -77,7 +77,7 @@ function getFeed() {
     })
     .then(json => {
       // console.log("### getFeed() > json: ", json);
-      //debugger;
+      debugger;
       dispatch(setFeed(json));
     })
   }
@@ -141,9 +141,7 @@ function commentPhoto(photoId, message) {
         if (response.status === 401) {
           dispatch(userActions.logout());
         }
-        debugger;
-        console.log("### photos > commentPhoto > response.json(): ", response);
-        return true;
+        return response.json();
       })
       .then(json => {
         debugger;
@@ -174,6 +172,10 @@ function removeCommentPhoto(photoCommentId, message) {
           dispatch(userActions.logout());
         } else if (!response.ok) {
           debugger;
+          //dispatch로 reducer function을 호출 함으로 
+          //변경된 state기반으로 
+          // dispatch(removeComment())
+
           //TODO 제대로 안지워 졌으면 다시 살리는 로직이 필요
           // dispatch(doLikePhoto(photoId));
         }
@@ -195,7 +197,7 @@ function reducer(state = initialState, action) {
     case UNLIKE_PHOTO:
       return applyUnlikePhoto(state, action);
     case ADD_COMMENT:
-      debugger;
+      //debugger;
       return applyAddComment(state, action);
     case REMOVE_COMMENT:
       return applyRemoveComment(state, action);
@@ -238,15 +240,14 @@ function applyUnlikePhoto(state, action) {
   return { ...state, feed: updatedFeed };
 }
 
-function applyAddComment(state, action){
-  debugger;
+function applyAddComment(state, action) {
   const { photoId, comment } = action;
   const { feed } = state;
   //좋아요, 싫어요와 비슷한 작업(state에 댓글내용을 update한다.)
   console.log("### reducer function : ", state, action);
   const updatedFeed = feed.map(photo => {
     if (photo.id === photoId) {
-      return { 
+      return {
         ...photo,
         comments: [...photo.comments, comment]
       };
@@ -257,7 +258,7 @@ function applyAddComment(state, action){
 }
 
 function applyRemoveComment(state, actions){
-  debugger;
+  //debugger;
 }
 
 // exports
