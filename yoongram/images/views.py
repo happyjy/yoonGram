@@ -182,7 +182,7 @@ class LikeImage(APIView):
       return Response(status=status.HTTP_304_NOT_MODIFIED)
 
     except models.Like.DoesNotExist:
-      # #1-44 step3 좋아요한 이미지 아니라면 좋아요!
+      # #1-44 step3 좋아요한 이미지 아니라면 좋아요!  
         new_like = models.Like.objects.create(
           creator=user,
           image=found_image
@@ -235,17 +235,30 @@ class CommentImage(APIView):
 
     return Response(status=status.HTTP_201_CREATED)
 
+class removeCommentPhoto(APIView):
+  def delete(self, request, comment_id, format=None):
+    print("### removeComment")
+    user = request.user
+
+    # print(models)
+    # print(models.Comment)
+    print(comment_id, user)
+
+    try:
+      comment = models.Comment.objects.get(id=comment_id)
+      print(comment)
+      comment.delete()
+      return Response(status=status.HTTP_204_NO_CONTENT)
+    except models.Comment.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
 class Comment(APIView):
 
   #1-46 def의 속성(delete, get, post)에 따라 Django REST framework가 달라진다!
   # https://www.django-rest-framework.org/tutorial/3-class-based-views/
   def delete(self, request, comment_id, format=None):
       print("### Comment APIView")
-
       user = request.user
-
-      print(user)
-      print(comment_id)
 
       try:
         comment = models.Comment.objects.get(id=comment_id, creator=user)
@@ -253,7 +266,6 @@ class Comment(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
       except models.Comment.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
 
 # 1-55, 1-56 hashtag1,2편
 class Search(APIView):
@@ -302,7 +314,7 @@ class ModerateComments(APIView):
     user = request.user
 
     print('#### ModerateComments')
-    print(user)
+    print(user) 
 
     try: 
       comment_to_delete = models.Comment.objects.get(

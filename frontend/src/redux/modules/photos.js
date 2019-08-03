@@ -8,7 +8,7 @@
 // reducer
 // reducer funtions
 // exports
-// defulat reducer export
+// default reducer export
 
 // ---
 // imports
@@ -19,6 +19,7 @@ const SET_FEED = "SET_FEED";
 const LIKE_PHOTO = "LIKE_PHOTO";
 const UNLIKE_PHOTO = "UNLIKE_PHOTO";
 const ADD_COMMENT = "ADD_COMMENT";
+const REMOVE_COMMENT = "REMOVE_COMMENT";
 
 // action creators
 function setFeed(feed) {
@@ -50,6 +51,14 @@ function addComment(photoId, comment){
   }
 }
 
+function removeComment(commentId, comment){
+  return {
+    type: REMOVE_COMMENT,
+    commentId,
+    comment
+  }
+}
+
 // api actions
 function getFeed() {
   return (dispatch, getState) => {
@@ -68,7 +77,7 @@ function getFeed() {
     })
     .then(json => {
       // console.log("### getFeed() > json: ", json);
-      debugger;
+      //debugger;
       dispatch(setFeed(json));
     })
   }
@@ -76,7 +85,7 @@ function getFeed() {
 
 function likePhoto(photoId) {
   return (dispatch, getState) => {
-    debugger;
+    //debugger;
     dispatch(doLikePhoto(photoId));
     const { user: { token } } = getState();
     fetch(`/images/${photoId}/likes/`, {
@@ -96,7 +105,7 @@ function likePhoto(photoId) {
 
 function unlikePhoto(photoId) {
   return (dispatch, getState) => {
-    debugger;
+    //debugger;
     dispatch(doUnlikePhoto(photoId));
     const { user: { token } } = getState();
     fetch(`/images/${photoId}/unlikes/`, {
@@ -105,7 +114,7 @@ function unlikePhoto(photoId) {
         Authorization: `JWT ${token}`
       }
     }).then(response => {
-      debugger;
+      //debugger;
       if (response.status === 401) {
         dispatch(userActions.logout());
       } else if (!response.ok) {
@@ -132,14 +141,43 @@ function commentPhoto(photoId, message) {
         if (response.status === 401) {
           dispatch(userActions.logout());
         }
+        debugger;
         console.log("### photos > commentPhoto > response.json(): ", response);
-        return response.json();
+        return true;
       })
       .then(json => {
+        debugger;
         if (json.message) {
           dispatch(addComment(photoId, json));
         }
       });
+  };
+}
+
+function removeCommentPhoto(photoCommentId, message) {
+  return (dispatch, getState) => {
+    //TODO 선 comment를 지우는 작업이 필요.
+    const { user: { token } } = getState();
+    fetch(`/images/${photoCommentId}/removeCommentPhoto/`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message
+      })
+    })
+      .then(response => {
+        debugger;
+        if (response.status === 401) {
+          dispatch(userActions.logout());
+        } else if (!response.ok) {
+          debugger;
+          //TODO 제대로 안지워 졌으면 다시 살리는 로직이 필요
+          // dispatch(doLikePhoto(photoId));
+        }
+      })
   };
 }
 
@@ -148,6 +186,7 @@ const initialState = {};
 
 // reducer
 function reducer(state = initialState, action) {
+  //debugger;
   switch (action.type){
     case SET_FEED:
       return applySetFeed(state, action);
@@ -158,6 +197,8 @@ function reducer(state = initialState, action) {
     case ADD_COMMENT:
       debugger;
       return applyAddComment(state, action);
+    case REMOVE_COMMENT:
+      return applyRemoveComment(state, action);
     default:
       return state;
   }
@@ -165,7 +206,7 @@ function reducer(state = initialState, action) {
 
 // reducer funtions
 function applySetFeed(state, action) {
-  debugger;
+  //debugger;
   const { feed } = action;
   return {
     ...state,
@@ -198,6 +239,7 @@ function applyUnlikePhoto(state, action) {
 }
 
 function applyAddComment(state, action){
+  debugger;
   const { photoId, comment } = action;
   const { feed } = state;
   //좋아요, 싫어요와 비슷한 작업(state에 댓글내용을 update한다.)
@@ -214,16 +256,21 @@ function applyAddComment(state, action){
   return { ...state, feed: updatedFeed };
 }
 
+function applyRemoveComment(state, actions){
+  debugger;
+}
+
 // exports
 const actionCreators = {
   getFeed,
   likePhoto,
   unlikePhoto,
-  commentPhoto
+  commentPhoto,
+  removeCommentPhoto
 };
 
 
 export { actionCreators };
 
-// defulat reducer export
+// default reducer export
 export default reducer;

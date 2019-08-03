@@ -2,6 +2,12 @@
   margin-bottom: 12px;
   .list {    
   }
+  .icon {
+    cursor: pointer;
+    &:first-child {
+      margin-right: 10px;
+    }
+  } 
 }
 .comment {
   margin-bottom: 7px;
