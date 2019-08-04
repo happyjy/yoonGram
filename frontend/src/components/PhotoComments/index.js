@@ -4,11 +4,11 @@ import { actionCreators as photoActions } from "redux/modules/photos";
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   // console.log("###ownProps: ",ownProps);
-  debugger;
+  //debugger;
   return {
     handleCommentsClick: (photoCommentId) => {
       debugger;
-      dispatch(photoActions.removeCommentPhoto(photoCommentId));
+      dispatch(photoActions.removeCommentPhoto(ownProps.photoId, photoCommentId));
     }
   };
 };

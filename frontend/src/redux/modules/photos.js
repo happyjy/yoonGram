@@ -51,11 +51,11 @@ function addComment(photoId, comment) {
   };
 }
 
-function removeComment(commentId, comment){
+function removeComment(photoId, photoCommentId){
   return {
     type: REMOVE_COMMENT,
-    commentId,
-    comment
+    photoId,
+    photoCommentId
   }
 }
 
@@ -77,7 +77,6 @@ function getFeed() {
     })
     .then(json => {
       // console.log("### getFeed() > json: ", json);
-      debugger;
       dispatch(setFeed(json));
     })
   }
@@ -85,7 +84,6 @@ function getFeed() {
 
 function likePhoto(photoId) {
   return (dispatch, getState) => {
-    //debugger;
     dispatch(doLikePhoto(photoId));
     const { user: { token } } = getState();
     fetch(`/images/${photoId}/likes/`, {
@@ -105,7 +103,6 @@ function likePhoto(photoId) {
 
 function unlikePhoto(photoId) {
   return (dispatch, getState) => {
-    //debugger;
     dispatch(doUnlikePhoto(photoId));
     const { user: { token } } = getState();
     fetch(`/images/${photoId}/unlikes/`, {
@@ -114,7 +111,6 @@ function unlikePhoto(photoId) {
         Authorization: `JWT ${token}`
       }
     }).then(response => {
-      //debugger;
       if (response.status === 401) {
         dispatch(userActions.logout());
       } else if (!response.ok) {
@@ -144,7 +140,6 @@ function commentPhoto(photoId, message) {
         return response.json();
       })
       .then(json => {
-        debugger;
         if (json.message) {
           dispatch(addComment(photoId, json));
         }
@@ -152,7 +147,7 @@ function commentPhoto(photoId, message) {
   };
 }
 
-function removeCommentPhoto(photoCommentId, message) {
+function removeCommentPhoto(photoId, photoCommentId) {
   return (dispatch, getState) => {
     //TODO 선 comment를 지우는 작업이 필요.
     const { user: { token } } = getState();
@@ -161,24 +156,19 @@ function removeCommentPhoto(photoCommentId, message) {
       headers: {
         Authorization: `JWT ${token}`,
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message
-      })
+      }
     })
       .then(response => {
-        debugger;
         if (response.status === 401) {
           dispatch(userActions.logout());
         } else if (!response.ok) {
-          debugger;
           //dispatch로 reducer function을 호출 함으로 
           //변경된 state기반으로 
-          // dispatch(removeComment())
-
+          
           //TODO 제대로 안지워 졌으면 다시 살리는 로직이 필요
           // dispatch(doLikePhoto(photoId));
         }
+        dispatch(removeComment(photoId, photoCommentId));
       })
   };
 }
@@ -188,7 +178,6 @@ const initialState = {};
 
 // reducer
 function reducer(state = initialState, action) {
-  //debugger;
   switch (action.type){
     case SET_FEED:
       return applySetFeed(state, action);
@@ -197,7 +186,6 @@ function reducer(state = initialState, action) {
     case UNLIKE_PHOTO:
       return applyUnlikePhoto(state, action);
     case ADD_COMMENT:
-      //debugger;
       return applyAddComment(state, action);
     case REMOVE_COMMENT:
       return applyRemoveComment(state, action);
@@ -208,7 +196,6 @@ function reducer(state = initialState, action) {
 
 // reducer funtions
 function applySetFeed(state, action) {
-  //debugger;
   const { feed } = action;
   return {
     ...state,
@@ -257,8 +244,22 @@ function applyAddComment(state, action) {
   return { ...state, feed: updatedFeed };
 }
 
-function applyRemoveComment(state, actions){
-  //debugger;
+function applyRemoveComment(state, action){
+  const { photoId, photoCommentId } = action;
+  const { feed } = state;
+  
+  const updatedFeed = feed.map(photo => {
+    if(photo.id === photoId){
+      const result = photo.comments.filter(comment => {
+        return comment.id !== photoCommentId;
+      });
+      photo.comments = result;
+    };
+    debugger
+    return photo;
+  });
+  debugger
+  return { ...state, feed: updatedFeed }
 }
 
 // exports

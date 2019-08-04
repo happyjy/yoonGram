@@ -32,7 +32,8 @@ const FeedPhoto = (props, context) => {
             photoId={props.id}
             openLikes={props.openLikes}
           />
-          <PhotoComments 
+          <PhotoComments
+            photoId={props.id}
             caption={props.caption}
             creator={props.creator.username}
             comments={props.comments} 
