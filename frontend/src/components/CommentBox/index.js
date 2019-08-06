@@ -3,6 +3,9 @@ import Container from "./container";
 import { actionCreators as photoActions } from "redux/modules/photos";
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+  console.log("### commentBox > index.js ");
+  console.log({dispatch, ownProps});
+
   return {
     submitComment: message => {
       dispatch(photoActions.commentPhoto(ownProps.photoId, message));

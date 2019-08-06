@@ -7,7 +7,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleHeartClick: ()=> {
       if (ownProps.isLiked) {
-        debugger;
         dispatch(photoActions.unlikePhoto(ownProps.photoId));
       } else {
         dispatch(photoActions.likePhoto(ownProps.photoId));

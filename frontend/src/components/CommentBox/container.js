@@ -13,7 +13,7 @@ class Container extends Component {
         {...this.state}
         {...this.props}
         handleInputChange={this._handleInputChange}
-        handleSubmit={this._handleSubmit}
+        // handleSubmit={this._handleSubmit}
         handleKeyPress={this._handleKeyPress}
       />
     );
@@ -24,14 +24,16 @@ class Container extends Component {
       comment: value
     });
   };
-  _handleSubmit = () => {
-    console.log(this.state);
-  };
+  // _handleSubmit = () => {
+  //   console.log(this.state);
+  // };
   _handleKeyPress = event => {
+    
     const { submitComment } = this.props;
     const { comment } = this.state;
     const { key } = event;
     if (key === "Enter") {
+      //debugger;
       event.preventDefault();
       submitComment(comment);
       this.setState({

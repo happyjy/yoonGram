@@ -200,7 +200,7 @@ class LikeImage(APIView):
 class CommentImage(APIView):
 
   def post(self, request, image_id, format=None):
-
+    
     user = request.user
 
     try:
