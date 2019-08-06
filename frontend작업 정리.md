@@ -12,6 +12,7 @@
 * [작성완료][create] 댓글 달기 과정
 * [작성완료][create, delete]like, unlike
 * [작성완료]index.js에서 mapDispatchToProps 두번째 param(ownProps)에 대해서
+* [작성완료][delete] 댓글 삭제하기
 
 * [작성완료]아래 function에 대한 생각
   - mapStateToProps
@@ -160,6 +161,31 @@ index.js에서 mapDispatchToProps에서 redux에서 설정한 api를 세팅
   - 좋아요 세팅, 해제 할때 PhotoActions > index.js에서 ownProps에 props가 다 담겨져 있다. 
   - 이때 'ownProps'의 값은 PhotoActions component에 property로 값을 세팅한 값이다. 
   - 위 PhotoActions component에 property값을 세팅한 곳은 FeedPhoto > present.js 이다.
+
+# [delete] 댓글 삭제하기
+* 서버에서 삭제하는 작업은 쉽게 마쳤으나 state관리로 화면을 rerendering하게하는 작업중 한 부분에서 걸려 생각보다 쉽지 않았다. 
+* 먼저 Phtocomments이 컴포넌트는 기능이 없어 index.js에 화면 rendering하는 소스만 있던 것을  
+index.js, container.js, presenter.js으로 나눴다. 
+* presneter.js에 x 버튼을 달고  
+reducer에서 삭제api를 작성한것을 index.js에서 props로 세팅 후 x버튼 클릭식 이벤트로 등록한다.
+* 그리고 <u>**여기서 문제**</u>가 생겼다.   
+  api로 component에서 원하는 값(phtoCommentId)을 전달하는 방법을 실습하는 동안에 없어 방법을 고민하다 검색으로 해결 할 수 있었다.   
+  ``` js
+  render: function () {
+    var children = this.state.childrenData.map(function(childData,childIndex) {
+        return <Child onClick={this.handleChildClick.bind(null,childData)} text={childData.childText}/>;
+    }.bind(this));
+    return <div>{children}</div>;
+  },
+  ```
+[주소](https://stackoverflow.com/questions/22639534/pass-props-to-parent-component-in-react-js)
+  * 아래와 같이 컴포넌트 관계가 있다.  
+    * Explore > Feed > FeedPhoto > photoComments
+    여기서 photoComments에서 삭제하는 photoId, photoCommentId를 전달해야만 했다.  
+    * 그래서 photoComments에 photoId를 갖기 위해서 FeedPhotod component에 photoComments컴포넌트에 photoId를 세팅해준다. 
+    * photoCommentId는 이미 PhotoComment component에서 세팅해줬다.  
+    해줘야 할 것은 api로 전달해야 하는 값을 presneter.js에서 index.js에 reducer api로 전달할 수 있도록 index.js에 전달해줘야 했다. 
+
 
 ---
 ---
