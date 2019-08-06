@@ -8,8 +8,8 @@ const PhotoComments = props => (
     <ul className={styles.list}>
       <Comment comment={props.caption}/>
         {props.comments.map(comment => (
-          <div>
-            <Comment
+          <div key={comment.id}>
+            <Comment              
               handleCommentsClick={props.handleRemoveClickEvent}
               username={comment.creator.username}
               comment={comment.message}
@@ -37,12 +37,7 @@ const Comment = props => (
 )
 
 PhotoComments.propTypes = {
-  number: PropTypes.number.isRequired,
-  isLiked: PropTypes.bool.isRequired,
-  photoId: PropTypes.number.isRequired,
-  handleRemoveClickEvent: PropTypes.func.isRequired,
-  handleHeartClick: PropTypes.func.isRequired,
-  openLikes: PropTypes.func.isRequired
+  handleCommentsClick: PropTypes.func.isRequired
 }
 
 PhotoComments.contextTypes = {
