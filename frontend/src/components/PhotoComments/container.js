@@ -4,8 +4,9 @@ import PhotoComments from "./presenter";
 class Container extends Component {
   //debugger;
   render() {
+    console.log("!!! this.props: " , this.props)
     return <PhotoComments 
-      {...this.props} 
+      {...this.props}
       handleRemoveClickEvent={this._handleRemoveClickEvent}
     />;
   }
@@ -17,11 +18,7 @@ class Container extends Component {
     console.log("### this.state: ", this.state);
     console.log("### this.event: ", event);
 
-    // const { comment } = this.state;
-    // const { key } = event;
-
     handleCommentsClick(event)
-
   };
 }
 

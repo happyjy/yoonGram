@@ -28,7 +28,7 @@ const Comment = props => (
     <span className={styles.message}>{props.comment}</span>
     { props.handleCommentsClick ? 
       (<span onClick={props.handleCommentsClick.bind(null, props.commentId)} className={styles.icon}>
-        <Ionicon icon="ios-close" color="#EB4B59" />{props.commentId}
+        <Ionicon icon="ios-close" color="#EB4B59" />
       </span>) 
       : "" }
     
