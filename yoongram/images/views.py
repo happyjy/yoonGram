@@ -19,30 +19,41 @@ class Images(APIView):
   def get(self, request, format=None):
     #1-39 follow하는 사람의 최근 사진이 보이도록 코딩!
     user = request.user
-    # 로그인하는 유저의 follwing을 조회
     following_users = user.following.all()
-    # print(following_users)
-    
-    image_list = []
 
+    print("### Imamges in views.py")
+    # print(user.following_count)
+    # print(request)
+    # print(request.user)
+    # print(request.user.following)
+    # print(request.user.following.all())
+    # print(user.gender)
+    
+    # ### following 유저 사진 가져오기
+    image_list = []
     for following_user in following_users:
       # print(following_user)
       # jyoon study : iterator(for), 갯수제한... 와놀라움. 
       # print(following_user.images.all()[:1])
-      user_images = following_user.images.all()[:2]
+      user_images = following_user.images.all()[:3]
+      # print(user_images)
       for image in user_images:
           image_list.append(image)
 
-    my_images = user.images.all()
-    for image in my_images:
-      image_list.append(image)
-  
+
+    # ### 로그인 유저 사진 가져오기 
+    # my_images = user.images.all()
+    # print(my_images)
+
+    # for image in my_images:
+    #   image_list.append(image)
+    
     # print(image_list)
     # image_list : following을 기준으로 image가 있다.
     # 해결하기 위해 python sorted 기능으로 image_list 데이터를 등록한 날짜 기준으로 정렬!
     # sorted_list = sorted(image_list, key=get_key, reverse=True )
     sorted_list = sorted(image_list, key=lambda img: img.created_at , reverse=True)
-    print(sorted_list)
+    # print(sorted_`list)
 
     serializer = serializers.ImageSerializer(sorted_list, many=True, context={'request': request})
 

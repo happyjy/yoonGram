@@ -1,12 +1,16 @@
 
 // ## reducer
 // imports
+//-----------------
 // actions
 // action creators
+//-----------------
 // api actions
 // initial state
+//-----------------
 // reducer
 // reducer funtions
+//-----------------
 // exports
 // default reducer export
 

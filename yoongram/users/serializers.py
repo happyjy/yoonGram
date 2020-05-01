@@ -38,7 +38,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class ListUsersSerializer(serializers.ModelSerializer):
 
   following = serializers.SerializerMethodField()
-  print("################# follwoing")
+  print("################# ListUsersSerializer")
   print(following)
   class Meta:
     model = models.User
@@ -53,7 +53,8 @@ class ListUsersSerializer(serializers.ModelSerializer):
   def get_following(self, obj):
     if 'rqeust' in self.context:
       request = self.context['request']
-      print("######################################")
+      print("########################")
+      print("### ListUsersSerializer")
       print(request)
       if obj in request.user.following.all():
         return True
