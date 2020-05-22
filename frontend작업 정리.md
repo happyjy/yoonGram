@@ -344,3 +344,61 @@ reducer에서 삭제api를 작성한것을 index.js에서 props로 세팅 후 x�
   * (20200503) react-redux라이브러리 Provider store={store}
 
 
+
+
+---
+
+# 
+
+- index.js -> App
+
+- App > index 
+  : react-redux 라이브러리 connect 함수로 redux와 Container를 한다.
+  : Redux로 props를 넘기고/ Redux로 받은 값을 props로 Container로 보낸다.(mapDispatchToProps, mapStateToProps)
+
+  - import { connect } from 'react-redux'
+  - import Container from './container';
+  - export defatul connect (mapStateToProps)(Container);
+
+- App > container 
+  : 비즈니스모델이 있다/ class component다/ presenter에게 props를 넘겨준다.
+
+  - import App from ./presenter.
+  - export container props => <App {...props}/>;
+
+- App > presenter 
+  : component가 있다/ function component다 
+
+  - import component(Footer, Auth, Navigation, Feed, Explore, Search) from 'component/xxx'
+  - export default App;
+
+- 요약
+  index
+  	- connect with react-redux, container
+  container
+  	- export <presenter state, props>
+  presenter
+  	- export <template>
+
+- 관계도
+  index.js
+    : connect with react-redux, container
+    ㄴ contianer.js
+  		: render 함수에서 presenter(컴포넌트)로 props로 '상탯값, 속성값' 전달
+  		ㄴ presenter.js
+  			: component 작성
+
+  42330 ETXFEA17_01547 퇴직금계산 컴바인 위젯 개발 요청 
+
+  
+
+# ?
+
+1. Feed/index.js "mapDispatchToProps"는 언제 수행되는거지? 
+   - stroe가 변경 될때 자동 호출 
+   - [?] 어떻게 자동 호출 될까? 
+   - 예상 
+     - mapDispatchToProps > componentDidMount > componentWillReceiveProps > render(redux에서 받은 props전달)	
+2. configureStore.js 리뷰 		
+   - redux라이브러리의 combineReducers 객체는 리듀서를 합치는 과정이 있다.
+3. redux > api actions 함수 return에 인자(dispatch, getState)두 개는 어디서 오는거지? 
