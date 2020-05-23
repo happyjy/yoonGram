@@ -38,9 +38,13 @@ USE_TZ = True
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+# DATABASES = {
+#     'default': env.db('DATABASE_URL', default='postgres:///yoongram'),
+# }
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///yoongram'),
+    'default': env.db('DATABASE_URL', default='postgres://postgres:admin123@localhost:5432/yoongram'),
 }
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # URLS
@@ -65,17 +69,15 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     # 'crispy_forms',
     'allauth',    # registration
-    'allauth.account',  #registration
-    'allauth.socialaccount',  #registration
+    'allauth.account',  # registration
+    'allauth.socialaccount',  # registration
     'rest_framework',   # REST framework
-    'rest_framework.authtoken', # jwt token을 주로 사용할것이지만 오류나면 안되니까 설정해둔 app
+    'rest_framework.authtoken',  # jwt token을 주로 사용할것이지만 오류나면 안되니까 설정해둔 app
     'taggit',  # Tags for the photos
-    'taggit_serializer', # tag serializer
-    'rest_auth', # rest auth
-    'rest_auth.registration', # enable registration
-    'corsheaders', # To accept request from React
-
-
+    'taggit_serializer',  # tag serializer
+    'rest_auth',  # rest auth
+    'rest_auth.registration',  # enable registration
+    'corsheaders',  # To accept request from React
 ]
 LOCAL_APPS = [
     # custom users app
@@ -281,10 +283,10 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 JWT_AUTH = {
-  'JWT_VERIFY_EXPIRATION': False
+    'JWT_VERIFY_EXPIRATION': False
 }
 
-# FACEBOOK LOGIN INFO 
+# FACEBOOK LOGIN INFO
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': [
@@ -307,16 +309,16 @@ SOCIALACCOUNT_PROVIDERS = {
             'picture'
         ],
         'AUTH_PARAMS': {
-            #'auth_type': 'reauthenticate'
+            # 'auth_type': 'reauthenticate'
         },
         'METHOD': 'oauth2',
-        #'LOCALE_FUNC': 'path.to.callable',
+        # 'LOCALE_FUNC': 'path.to.callable',
         'VERIFIED_EMAIL': True,
         'VERSION': 'v2.4'
     }
-}  
+}
 
-# FACEBOOK LOGIN INFO 
+# FACEBOOK LOGIN INFO
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'yoongram.users.serializers.SignUpSerializer'
 }

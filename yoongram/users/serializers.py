@@ -12,53 +12,57 @@ from . import models
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-  images = images_serializers.CountImageSerializer(many=True)
+    images = images_serializers.CountImageSerializer(many=True)
 
-  # ReadOnlyField()
-  # : 이 serialize를 만들때 자동으로 만드는 필드 
-  # : 예로 readonly해준 필드는 수정 불가능 한 필드로 수정 불가능한 필드로 인식하게 한다.
-  # https://www.django-rest-framework.org/api-guide/fields/#readonlyfield
-  post_count = serializers.ReadOnlyField()
-  followers_count = serializers.ReadOnlyField()
-  following_count = serializers.ReadOnlyField()
-  class Meta:
-    model = models.User
-    fields = (
-      'profile_image',
-      'username',
-      'name',
-      'bio',
-      'website',
-      'post_count',
-      'followers_count',
-      'following_count',
-      'images'
-    )
+    # ReadOnlyField()
+    # : 이 serialize를 만들때 자동으로 만드는 필드
+    # : 예로 readonly해준 필드는 수정 불가능 한 필드로 수정 불가능한 필드로 인식하게 한다.
+    # https://www.django-rest-framework.org/api-guide/fields/#readonlyfield
+    post_count = serializers.ReadOnlyField()
+    followers_count = serializers.ReadOnlyField()
+    following_count = serializers.ReadOnlyField()
+
+    class Meta:
+        model = models.User
+        fields = (
+            'profile_image',
+            'username',
+            'name',
+            'bio',
+            'website',
+            'post_count',
+            'followers_count',
+            'following_count',
+            'images'
+        )
+
 
 class ListUsersSerializer(serializers.ModelSerializer):
 
-  following = serializers.SerializerMethodField()
-  print("################# ListUsersSerializer")
-  print(following)
-  class Meta:
-    model = models.User
-    fields = (
-      'id',
-      'profile_image',
-      'username',
-      'name',
-      'following'
-    )
-  
-  def get_following(self, obj):
-    if 'rqeust' in self.context:
-      request = self.context['request']
-      print("########################")
-      print("### ListUsersSerializer")
-      print(request)
-      if obj in request.user.following.all():
-        return True
-    return False
+    following = serializers.SerializerMethodField()
+    print("################# ListUsersSerializer")
+    print(following)
+
+    class Meta:
+        model = models.User
+        fields = (
+            'id',
+            'profile_image',
+            'username',
+            'name',
+            'following'
+        )
+
+    def get_following(self, obj):
+        if 'rqeust' in self.context:
+            request = self.context['request']
+            print("########################")
+            print("### ListUsersSerializer")
+            print(request)
+            if obj in request.user.following.all():
+                return True
+        return False
+
 
 class SignUpSerializer(RegisterSerializer):
 
@@ -71,7 +75,7 @@ class SignUpSerializer(RegisterSerializer):
             'password1': self.validated_data.get('password1', ''),
             'email': self.validated_data.get('email', '')
         }
-    
+
     def save(self, request):
         adapter = get_adapter()
         user = adapter.new_user(request)

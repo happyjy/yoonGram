@@ -862,16 +862,16 @@ If you want to know the source:
 	확인 원인은 오타였음
 	“taggit_serializer” 명으로 THIRD_PART_APPS에 등록해야하는데 (taggit-serializer로 등록함…)
 
-	- 아니 왜 pipenv install django-taggit-serializer로 taggit-serialzier를 설치하고 
-base.py > THIRD_PART_APPS에  ‘taggit-serializer’를 등록했는데
-ModuleNotFoundError: No module named 'taggit-serializer' 이런 에러가 서버에서 나서 
-… 해결중. 
+      - 아니 왜 pipenv install django-taggit-serializer로 taggit-serialzier를 설치하고 
+    base.py > THIRD_PART_APPS에  ‘taggit-serializer’를 등록했는데
+    ModuleNotFoundError: No module named 'taggit-serializer' 이런 에러가 서버에서 나서 
+    … 해결중. 
 
-Module 받은 foler가 어딘지
-Pipfile이 jaeyoonYoon폴더에 있는데 이게 맞는건지 
-가상환경이 yoongram 폴더에 있어야 하는게 아닌건지… 헷갈린다. ㅎㅎㅎㅎㅎㅎ
-일단 pip 가상환경에 대해서 다시 알아봐야할듯.
-ㅠㅠ
+  Module 받은 foler가 어딘지
+  Pipfile이 jaeyoonYoon폴더에 있는데 이게 맞는건지 
+  가상환경이 yoongram 폴더에 있어야 하는게 아닌건지… 헷갈린다. ㅎㅎㅎㅎㅎㅎ
+  일단 pip 가상환경에 대해서 다시 알아봐야할듯.
+  ㅠㅠ
 
 
 [#공유]
@@ -881,9 +881,6 @@ http://localhost:8000/images/
 
 
 # 1-72/75 Signing Up: Loggin In
-* 
-
-
 *[#확인필요]
 If Django version is above 2.0, you need to put as below in urls.py
 
