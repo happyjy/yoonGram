@@ -11,17 +11,18 @@ import { actionCreators as photoActions } from 'redux/modules/photos';
 /**
  * mapStateToProps
  *  * 역할: store가 업데이트가 될때 마다 자동적으로 호출해 component에 store의 결과값을 component로 전달한다.
+ *       : store 업데이트 되는 시점 - redux에서 function reducer 파일에서 return 할때 
  *  * 사용방법: connect함수의 첫번째 parameter로 사용
  * @param {*} state 
  * @param {*} ownProps 
  */
 const mapStateToProps = (state, ownProps) => {
-    const { photos: { feed } } = state;
-    console.log('### Feed > index.js > mapStateToProps > state arguments: ', state);
-    console.log('### Feed > index.js > mapStateToProps > ownProps arguments: ', ownProps);
-    return {
-        feed
-    };
+	const { photos: { feed } } = state;
+	console.log('### Feed > index.js > mapStateToProps > state arguments: ', state);
+	console.log('### Feed > index.js > mapStateToProps > ownProps arguments: ', ownProps);
+	return {
+		feed
+	};
 };
 
 /**
@@ -33,13 +34,14 @@ const mapStateToProps = (state, ownProps) => {
  * @param {*} ownProps 
  */
 const mapDispatchToProps = (dispatch, ownProps) => {
-    console.log('### Feed > index.js > mapDispatchToProps > photoActions.getFeed() arguments: ', photoActions);
-    console.log('### Feed > index.js > mapDispatchToProps > ownProps arguments: ', ownProps);
-    return {
-        getFeed: () => {
-            dispatch(photoActions.getFeed());
-        }
-    };
+	console.log('### Feed > index.js > mapDispatchToProps > photoActions.getFeed() arguments: ', photoActions);
+	console.log('### Feed > index.js > mapDispatchToProps > ownProps arguments: ', ownProps);
+	return {
+		getFeed: () => {
+			// dispatch(api action)
+			dispatch(photoActions.getFeed());
+		}
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

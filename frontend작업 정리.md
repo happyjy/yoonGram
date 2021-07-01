@@ -1,15 +1,17 @@
 # 정리 방법
+
 1. 구현(CRUD) 기준으로 정리
 2. react lib 기준으로 정리
 
-
 ---
+
 # 1. 구현(CRUD) 기준으로 정리
+
 - [ ] this is an incomplete item
 - [ ] routing에 대해서
 - [ ] 경로 세팅 하는 방법 (../ 없이)
 
-- [x] component구조 
+- [x] component구조
 - [x] redux-react 설정
 - [ ] configureStore 설정
 
@@ -23,37 +25,42 @@
   - mapStateToProps
   - componentWillReceiveProps
 
-# 2. redux 관련 
-[X]redux > reducer 첫번째 param에 대해서 
-[X]redux > reducer function에 대해서 
+# 2. redux 관련
 
+[X]redux > reducer 첫번째 param에 대해서
+[X]redux > reducer function에 대해서
 
 ---
 
 # 3. react lib 기준으로 정리
+
 [작성대기] component 생명 주기 분석해보기
 
 ---
 
+# component구조
 
-# component구조 
-* app.js  
+- app.js  
 : router (Explore, Search, Feed)  
 : <u>react-router-dom lib의 'Route, Switch' 사용</u>
-  * Explore
-  * Search
-  * Feed
-      * Loading
-      * FeedPhoto
-          * PhotoActions
-          * photoComments
-          * TimeStamp
-          * CommentBox
-          * UserList : likes 누르면 나오는 팝업
-              * userDisplay
+  - Explore
+  - Search
+  - Feed
+    - Loading
+    - FeedPhoto
+      - PhotoActions
+      - photoComments
+      - TimeStamp
+      - CommentBox
+      - UserList : likes 누르면 나오는 팝업
+        - userDisplay
 
 # redux-react 설정
+
+- login -> feed 불러오는 과정
+
   1. src/index.js
+
   ``` js
     import { Provider } from 'react-redux';
 
@@ -63,6 +70,7 @@
   ```
 
   2. src/components/App/index.js
+
   ```js
     import { connect } from 'react-redux';
     import Container from './container';
@@ -74,7 +82,8 @@
     export default connect(mapStateToProps)(Container);
   ```
 
-  3. src/components/presentation.js
+  3. src/components/App/presentation.js
+
   ```js
     <Switch>
       <Route> key="1" exact path="/" component={Feed}/>
@@ -82,6 +91,7 @@
   ```
 
   4. src/components/Feed/index.js
+
   ```js
     import { connect } from 'react-redux';
     import { actionCreators as photoActions } from 'redux/modules/photos';
@@ -104,23 +114,27 @@
 
     connect(mapStateToProps, mapDispatchToProps)(Container);
   ```
-  * redux 설정
+
+- redux 설정
+
   1. src/index.js
-    - reacct-redux 라이브러리 Provider로 store설정
+  - reacct-redux 라이브러리 Provider로 store설정
   2. components/App/index.js
-    - container.js > presentation.js 호출로 Feed 컴포넌트 호출
+  - container.js > presentation.js 호출로 Feed 컴포넌트 호출
   4. src/components/Feed/index.js
-    - Feed > index.js react-redux 설정
-    - connect: react-redux의 라이브러리에 의해서 props관련 설정/ 설정을 적용할 컴포넌트 설정
-    - mapDispatchToProps: redux에서 설정한 api를 세팅
-    - mapStateToProps: mapDispatchToProps에 의해서 변경된 state를 connect에 설정된 컴포넌트에 props로 전달
+  - Feed > index.js react-redux 설정
+  - connect: react-redux의 라이브러리에 의해서 props관련 설정/ 설정을 적용할 컴포넌트 설정
+  - mapDispatchToProps: redux에서 설정한 api를 세팅
+  - mapStateToProps: mapDispatchToProps에 의해서 변경된 state를 connect에 설정된 컴포넌트에 props로 전달
 
 # [조회]FeedPhoto 컴포넌트 rendering 과정
-* 로그인 후 App/presenter.js > Privateroutes component
-  * privateRoutes는 Switch로 첫번째 Route는 Feed component 다. 
 
-* Feed Component file  
+- 로그인 후 App/presenter.js > Privateroutes component
+  - privateRoutes는 Switch로 첫번째 Route는 Feed component 다.
+
+- Feed Component file  
   : index.js, container.js, presenter.js에서 작업이 이뤄짐
+
   ```text
   #1. Feed/container.js 
     > componentDidMount
@@ -144,36 +158,40 @@
     > render proeprty
       : this.props.feed로 전달받아 Feed compoennt rendering 하는데 사용 
   ```
+
   1. componentDidMount function(in container.js)
-    * componentDidMount은 component가 Mount되고 lifeCycle에 의해서 호출 됨
-    * componentDidMount에서 this.props.getFeed를 호출 
-    * props로 getFeed를 사용할 수 있는 이유
+  - componentDidMount은 component가 Mount되고 lifeCycle에 의해서 호출 됨
+  - componentDidMount에서 this.props.getFeed를 호출
+  - props로 getFeed를 사용할 수 있는 이유
       : “react-redux"의 connect 객체로 인해서 가능
   2. mapDispatchToProps(getFeed 수행)(in index.js)  
-    * <u>dispatch에 설정되는 values는 photos.js(redux파일)에 "api actions" 이다.</u>
+  - <u>dispatch에 설정되는 values는 photos.js(redux파일)에 "api actions" 이다.</u>
   3. redux(in photos.js) 작업
-    * 2번에 의해서 Photos.js에서 getFeed "api actions"호출 
-    * <u>getFeed success 후 'applySetFeed' reducer functions를 호츨 해 api에서 return한 value를 세팅</u>
+  - 2번에 의해서 Photos.js에서 getFeed "api actions"호출
+  - <u>getFeed success 후 'applySetFeed' reducer functions를 호츨 해 api에서 return한 value를 세팅</u>
   4. mapStateToProps function(in index.js)
-    * index.js > mapStateToProps에서 api에서 return한 value를 첫번째 arguments로 받을 수 있다. 
-    * <u>이 과정으로 container에서 this.props</u>로 값을 받을 수 있다.
+  - index.js > mapStateToProps에서 api에서 return한 value를 첫번째 arguments로 받을 수 있다.
+  - <u>이 과정으로 container에서 this.props</u>로 값을 받을 수 있다.
   5.1 componentWillReceiveProps function (in container.js)
-    * 윗 단계에서 return한 value를 props로 받을 수 있다. 
-      - index.js에서 'react-redux'를 사용했기에 가능
-    * 여기서 component loading state를 설정
-      - Feed > presenter.js에서 LoadingFeed component 제어
+  - 윗 단계에서 return한 value를 props로 받을 수 있다.
+    - index.js에서 'react-redux'를 사용했기에 가능
+  - 여기서 component loading state를 설정
+    - Feed > presenter.js에서 LoadingFeed component 제어
   5.2 render function(in container.js)
-    * this.props에 feed가 property로 있다.
-    
+  - this.props에 feed가 property로 있다.
 
 # [create] 댓글 달기 과정
-* enter 이후 동작 trace를 아래 순서로 설명합니다. 
-1. event 호출 
-2. redux 
-3. component 전달과정
-  - component 구조를 잘 알고 있어야 파악하기 쉽다.
 
-## event 호출 
+- enter 이후 동작 trace를 아래 순서로 설명합니다.
+
+1. event 호출
+2. redux
+3. component 전달과정
+
+- component 구조를 잘 알고 있어야 파악하기 쉽다.
+
+## event 호출
+
   ```text
     #1. CommentBox/presenter.js
       - Textarea에서 enterEvent 감지
@@ -185,7 +203,8 @@
         - return에 적용한 submitComment 필드에 설정한 dispatch가 수행
   ```
   
-## redux 
+## redux
+
   ```
     #1. modules/photos.js (redux)
       > commentPhoto 함수 "api actions" 수행
@@ -203,7 +222,9 @@
   ```
 
 ## component 전달과정
+
 1. src/components/App
+
   ```
   1. index.js     : mapStateToProps function
   2. container.js : <App {...props}/>; 
@@ -211,7 +232,8 @@
   ```
   
 2. src/components/Feed
-  ``` text 
+
+  ``` text
   1. index.js     : mapStateToProps function
   2. container.js : componentWillReceiveProps function
   3. container.js : render function > Feed compoennt presenter 호출
@@ -219,6 +241,7 @@
   ```
 
 3. src/components/FeedPhoto
+
   ```
   1. index.js     : mapDispatchToProps
   2. container.js : render function > FeedPhoto component presenter 호출
@@ -227,23 +250,27 @@
   ```
   
 4. src/components/PhotoComments
+
   ```
   1. index.js   : Photo Component > Comment function
       * 이 Component는 보여주는 역할 밖에 없음으로 index.js에 rendering하는 부분만 있다.
   ```
 
-
 # [create, delete]like, unlike
+
 > heart 클릭으로 빨간 heart 제거 동작 trace
 > like하는 과정은 unlike하는 과정과 같기때문에 제거하는 것으로 설명
 
-* enter 이후 동작 trace를 아래 순서로 설명합니다. 
-1. event 호출 
-2. redux 
+- enter 이후 동작 trace를 아래 순서로 설명합니다.
+
+1. event 호출
+2. redux
 3. component 전달과정
-  - component 구조를 잘 알고 있어야 파악하기 쉽다.
- 
-## event 호출 
+
+- component 구조를 잘 알고 있어야 파악하기 쉽다.
+
+## event 호출
+
 ```
 * src/components/PhotoActions
 1. presenter.js > onClick
@@ -256,6 +283,7 @@
 ```
 
 ## redux
+
 ```
 * src/redux/modules/photos.js
 1. redux > photos.js > unlikePhoto (api function)
@@ -266,7 +294,9 @@
 ```
 
 ## component 호출 과정
+
 1. src/components/App
+
   ```
   1. index.js     : mapStateToProps function
   2. container.js : <App {...props}/>; 
@@ -274,7 +304,8 @@
   ```
   
 2. src/components/Feed
-  ``` text 
+
+  ``` text
   1. index.js     : mapStateToProps function
   2. container.js : componentWillReceiveProps function
   3. container.js : render function > Feed compoennt presenter 호출
@@ -282,6 +313,7 @@
   ```
 
 3. src/components/PhotoActions
+
   ``` text
   1. index.js    : mapDispatchToProps
   2. container.js: render function > PhotoActions component(in presentation)
@@ -290,21 +322,23 @@
         하트 부분을 업데이트 해야 함으로 'PhotoActions component'를 rerendering 한다.
   ```
 
+## index.js에서 mapDispatchToProps 두번째 param(ownProps)에 대해서
 
-## index.js에서 mapDispatchToProps 두번째 param(ownProps)에 대해서 
-  - 좋아요 세팅, 해제 할때 PhotoActions > index.js에서 ownProps에 props가 다 담겨져 있다. 
-  - 이때 'ownProps'의 값은 PhotoActions component에 property로 값을 세팅한 값이다. 
-  - 위 PhotoActions component에 property값을 세팅한 곳은 FeedPhoto > presenter.js 이다.
-
+- 좋아요 세팅, 해제 할때 PhotoActions > index.js에서 ownProps에 props가 다 담겨져 있다.
+- 이때 'ownProps'의 값은 PhotoActions component에 property로 값을 세팅한 값이다.
+- 위 PhotoActions component에 property값을 세팅한 곳은 FeedPhoto > presenter.js 이다.
 
 # [delete] 댓글 삭제하기
-* 서버에서 삭제하는 작업은 쉽게 마쳤으나 state관리로 화면을 rerendering하게하는 작업중 한 부분에서 걸려 생각보다 쉽지 않았다. 
-* 먼저 Phtocomments이 컴포넌트는 기능이 없어 index.js에 화면 rendering하는 소스만 있던 것을  
-index.js, container.js, presenter.js으로 나눴다. 
-* presneter.js에 x 버튼을 달고  
+
+- 서버에서 삭제하는 작업은 쉽게 마쳤으나 state관리로 화면을 rerendering하게하는 작업중 한 부분에서 걸려 생각보다 쉽지 않았다.
+
+- 먼저 Phtocomments이 컴포넌트는 기능이 없어 index.js에 화면 rendering하는 소스만 있던 것을  
+index.js, container.js, presenter.js으로 나눴다.
+- presneter.js에 x 버튼을 달고  
 reducer에서 삭제api를 작성한것을 index.js에서 props로 세팅 후 x버튼 클릭식 이벤트로 등록한다.
-* 그리고 <u>**여기서 문제**</u>가 생겼다.   
-  api로 component에서 원하는 값(phtoCommentId)을 전달하는 방법을 실습하는 동안에 없어 방법을 고민하다 검색으로 해결 할 수 있었다.   
+- 그리고 <u>**여기서 문제**</u>가 생겼다.
+  api로 component에서 원하는 값(phtoCommentId)을 전달하는 방법을 실습하는 동안에 없어 방법을 고민하다 검색으로 해결 할 수 있었다.
+
   ``` js
   render: function () {
     var children = this.state.childrenData.map(function(childData,childIndex) {
@@ -313,46 +347,49 @@ reducer에서 삭제api를 작성한것을 index.js에서 props로 세팅 후 x�
     return <div>{children}</div>;
   },
   ```
-[주소](https://stackoverflow.com/questions/22639534/pass-props-to-parent-component-in-react-js)
-  * 아래와 같이 컴포넌트 관계가 있다.  
-    * Explore > Feed > FeedPhoto > photoComments
-    여기서 photoComments에서 삭제하는 photoId, photoCommentId를 전달해야만 했다.  
-    * 그래서 photoComments에 photoId를 갖기 위해서 FeedPhotod component에 photoComments컴포넌트에 photoId를 세팅해준다. 
-    * photoCommentId는 이미 PhotoComment component에서 세팅해줬다.  
-    해줘야 할 것은 api로 전달해야 하는 값을 presneter.js에서 index.js에 reducer api로 전달할 수 있도록 index.js에 전달해줘야 했다. 
 
+[주소](https://stackoverflow.com/questions/22639534/pass-props-to-parent-component-in-react-js)
+
+- 아래와 같이 컴포넌트 관계가 있다.  
+  - Explore > Feed > FeedPhoto > photoComments
+    여기서 photoComments에서 삭제하는 photoId, photoCommentId를 전달해야만 했다.  
+  - 그래서 photoComments에 photoId를 갖기 위해서 FeedPhotod component에 photoComments컴포넌트에 photoId를 세팅해준다.
+  - photoCommentId는 이미 PhotoComment component에서 세팅해줬다.  
+    해줘야 할 것은 api로 전달해야 하는 값을 presneter.js에서 index.js에 reducer api로 전달할 수 있도록 index.js에 전달해줘야 했다.
 
 ---
 ---
 
 # 아래 function에 대한 생각
+
   > mapStateToProps(IN index.js), componentWillReceiveProps(IN container.js)
-  - 위 function은 component의 최상위 component로(router를 가지고 있는 component제외)
+
+- 위 function은 component의 최상위 component로(router를 가지고 있는 component제외)
   state를 가지고 있어 하위 component에게 state를 공유 할 수 있게 되었다.
-  - mapStateToProps에서 세팅하면 componentWillReceiveProps에서 this.props로 확인이 가능하다.
+- mapStateToProps에서 세팅하면 componentWillReceiveProps에서 this.props로 확인이 가능하다.
 
 ---
 ---
-# redux > reducer 첫번째 param에 대해서 
-  * redux > reducer 첫번째 param이 state로 기본으로 가지고 있다. 
+
+# redux > reducer 첫번째 param에 대해서
+
+- redux > reducer 첫번째 param이 state로 기본으로 가지고 있다.
   이건 redux에서 관리하고 있는 state를 reducer 첫번째 param를 통해서 관리하고 있다.
 
-# reducer function에 대해서 
-  * redux > reducer에서 호출한 reducer function return값이 어디로 전달되는지 궁금하다
-    - 현재로서는 app.js > index.js state로 받게 된다.
-    - 그 다음부터는 그 하위 component로 전달되어 변하게 되는 component에 가서 변화를 rerendering한다.
-  * (20200503) react-redux라이브러리 Provider store={store}
+# reducer function에 대해서
 
-
-
+- redux > reducer에서 호출한 reducer function return값이 어디로 전달되는지 궁금하다
+  - 현재로서는 app.js > index.js state로 받게 된다.
+  - 그 다음부터는 그 하위 component로 전달되어 변하게 되는 component에 가서 변화를 rerendering한다.
+- (20200503) react-redux라이브러리 Provider store={store}
 
 ---
 
-# 
+#
 
 - index.js -> App
 
-- App > index 
+- App > index
   : react-redux 라이브러리 connect 함수로 redux와 Container를 한다.
   : Redux로 props를 넘기고/ Redux로 받은 값을 props로 Container로 보낸다.(mapDispatchToProps, mapStateToProps)
 
@@ -360,45 +397,43 @@ reducer에서 삭제api를 작성한것을 index.js에서 props로 세팅 후 x�
   - import Container from './container';
   - export defatul connect (mapStateToProps)(Container);
 
-- App > container 
+- App > container
   : 비즈니스모델이 있다/ class component다/ presenter에게 props를 넘겨준다.
 
   - import App from ./presenter.
   - export container props => <App {...props}/>;
 
-- App > presenter 
-  : component가 있다/ function component다 
+- App > presenter
+  : component가 있다/ function component다
 
   - import component(Footer, Auth, Navigation, Feed, Explore, Search) from 'component/xxx'
   - export default App;
 
 - 요약
   index
-  	- connect with react-redux, container
+  - connect with react-redux, container
   container
-  	- export <presenter state, props>
+  - export <presenter state, props>
   presenter
-  	- export <template>
+  - export <template>
 
 - 관계도
   index.js
     : connect with react-redux, container
     ㄴ contianer.js
-  		: render 함수에서 presenter(컴포넌트)로 props로 '상탯값, 속성값' 전달
-  		ㄴ presenter.js
-  			: component 작성
+    : render 함수에서 presenter(컴포넌트)로 props로 '상탯값, 속성값' 전달
+    ㄴ presenter.js
+     : component 작성
 
-  42330 ETXFEA17_01547 퇴직금계산 컴바인 위젯 개발 요청 
-
-  
+  42330 ETXFEA17_01547 퇴직금계산 컴바인 위젯 개발 요청
 
 # ?
 
-1. Feed/index.js "mapDispatchToProps"는 언제 수행되는거지? 
-   - stroe가 변경 될때 자동 호출 
-   - [?] 어떻게 자동 호출 될까? 
-   - 예상 
-     - mapDispatchToProps > componentDidMount > componentWillReceiveProps > render(redux에서 받은 props전달)	
-2. configureStore.js 리뷰 		
+1. Feed/index.js "mapDispatchToProps"는 언제 수행되는거지?
+   - stroe가 변경 될때 자동 호출
+   - [?] 어떻게 자동 호출 될까?
+   - 예상
+     - mapDispatchToProps > componentDidMount > componentWillReceiveProps > render(redux에서 받은 props전달)
+2. configureStore.js 리뷰
    - redux라이브러리의 combineReducers 객체는 리듀서를 합치는 과정이 있다.
-3. redux > api actions 함수 return에 인자(dispatch, getState)두 개는 어디서 오는거지? 
+3. redux > api actions 함수 return에 인자(dispatch, getState)두 개는 어디서 오는거지?
