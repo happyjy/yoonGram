@@ -1,3 +1,3 @@
 # yoonGram
 
-Cloning Instagram with Python django and React / React Native
+Cloning Instagram with Python + Django + Django Rest Framework + React + Redux 
